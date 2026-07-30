@@ -5,13 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Kami 紙 · 智能排版</title>
 <style>
-/* ═══════════ Kami 设计系统 ═══════════ */
 :root{--parchment:#F5F4ED;--ivory:#FAF9F5;--warm-sand:#E8E6DC;--deep-dark:#141413;--dark-surface:#30302E;--brand:#1B365D;--brand-light:#2D5A8A;--near-black:#141413;--dark-warm:#3D3D3A;--olive:#504e49;--stone:#6b6a64;--border:#E8E6DC;--border-soft:#E5E3D8;--tag-08:#EEF2F7;--tag-14:#E4ECF5;--tag-18:#D0DCE9;--tag-30:#D6E1EE;--error:#B53333;--ring-warm:rgba(27,54,93,0.12);--serif:"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif;--sans:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;--mono:"JetBrains Mono","Fira Code","SF Mono",monospace;--body-size:10pt;--body-line:1.55;--col-width:680px;--h1-size:20pt;--h1-line:1.20;--h2-size:15pt;--h2-line:1.25;--h3-size:12.5pt;--h3-line:1.30;--lead-size:11pt;--caption-size:9pt;--caption-line:1.45;--label-size:7.5pt;--label-line:1.35;--spacing-xs:3px;--spacing-sm:5px;--spacing-md:10px;--spacing-lg:20px;--spacing-xl:32px;--spacing-2xl:48px;--radius-sm:4px;--radius-md:8px;--radius-lg:16px;--radius-xl:24px;--text-align:justify}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--parchment);color:var(--near-black);font-family:var(--sans);font-size:var(--body-size);line-height:var(--body-line);font-weight:400}
 body{display:flex;overflow:hidden}
 
-/* ═══════════ 面板 ═══════════ */
+/* ── 面板 ── */
 .panel{width:320px;flex-shrink:0;background:var(--ivory);border-right:1px solid var(--border);padding:var(--spacing-xl) var(--spacing-lg);overflow-y:auto;display:flex;flex-direction:column;gap:var(--spacing-xl)}
 .panel-header h2{font-family:var(--serif);font-size:var(--h2-size);font-weight:500;line-height:var(--h2-line);color:var(--brand);margin-bottom:2px}
 .panel-header p{font-size:8pt;font-weight:600;color:var(--stone);text-transform:uppercase;letter-spacing:1px}
@@ -27,28 +26,30 @@ body{display:flex;overflow:hidden}
 .range-wrap{display:flex;align-items:center;gap:var(--spacing-sm)}
 .range-wrap input[type=range]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:var(--warm-sand);border-radius:2px;outline:none}
 .range-wrap input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--brand);cursor:pointer;box-shadow:0 0 0 2px var(--ivory),0 0 0 3px var(--ring-warm)}
-select{width:100%;padding:8px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:9pt;font-family:var(--sans);background:var(--parchment);color:var(--dark-warm);outline:none;cursor:pointer}
-select:focus{border-color:var(--brand)}
-input[type=password],input[type=text]{width:100%;padding:6px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:8.5pt;font-family:var(--mono);background:var(--parchment);color:var(--dark-warm);outline:none}
-input:focus{border-color:var(--brand)}
-.ai-btn{padding:8px 16px;border-radius:var(--radius-md);font-size:9pt;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);background:var(--brand);color:var(--ivory);width:100%}
-.ai-btn:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
-.ai-btn:disabled{opacity:.4;cursor:default}
-.ai-status{font-size:8pt;color:var(--stone);min-height:3em;line-height:1.5;word-break:break-all}
+
+/* 按钮 */
+.panel-btn{padding:8px 16px;border-radius:var(--radius-md);font-size:9pt;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);background:var(--warm-sand);color:var(--olive);width:100%}
+.panel-btn:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
+.panel-btn.primary{background:var(--brand);color:var(--ivory)}
+.panel-btn:disabled{opacity:.4;cursor:default}
+.ai-status{font-size:8pt;color:var(--stone);min-height:2.5em;line-height:1.5}
 .divider{border:none;border-top:0.5pt dashed var(--border-soft);margin:0}
 
-/* ═══════════ 预览区 ═══════════ */
+/* ── 预览区 ── */
 .preview-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
-/* 进度条 */
 .progress-bar{position:absolute;top:0;left:0;height:3px;background:var(--brand);z-index:10;transition:width .3s}
-/* 顶部导航 */
 .top-bar{display:flex;align-items:center;justify-content:space-between;padding:var(--spacing-sm) var(--spacing-xl);background:var(--parchment);border-bottom:1px solid var(--border-soft);flex-shrink:0;font-size:9pt;color:var(--stone);gap:var(--spacing-md)}
 .top-bar button{padding:4px 12px;border-radius:var(--radius-sm);font-size:9pt;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);background:var(--warm-sand);color:var(--olive);transition:.15s}
 .top-bar button:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
 .top-bar button:disabled{opacity:0.3;cursor:default}
-.top-bar button.active{background:var(--brand);color:var(--ivory)}
 
-/* 目录抽屉 */
+/* 视图切换 pill */
+.view-toggle{display:inline-flex;background:var(--warm-sand);border-radius:var(--radius-sm);overflow:hidden}
+.view-toggle button{padding:4px 14px;border-radius:0;background:transparent;font-size:8.5pt;font-weight:500;color:var(--olive)}
+.view-toggle button.active{background:var(--brand);color:var(--ivory)}
+.ai-badge{display:inline-block;font-size:7pt;font-weight:600;background:var(--brand);color:var(--ivory);padding:2px 6px;border-radius:3px;margin-left:4px}
+
+/* 目录 */
 .toc-trigger{display:flex;align-items:center;gap:4px}
 .toc-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.08);z-index:50;display:none}
 .toc-overlay.show{display:block}
@@ -60,14 +61,18 @@ input:focus{border-color:var(--brand)}
 .toc-item.h1{padding-left:4px;font-weight:600}
 .toc-item.h2{padding-left:16px;font-size:8.5pt}
 
-/* 内容区 */
+/* 内容 */
 .preview{flex:1;overflow-y:auto;display:flex;justify-content:center;padding:var(--spacing-2xl) var(--spacing-xl)}
 .preview.scroll-mode{padding:var(--spacing-2xl) var(--spacing-xl);display:block}
-.preview.scroll-mode .page{display:flex!important;margin-bottom:var(--spacing-2xl);page-break-after:auto}
+.preview.scroll-mode .page{display:flex!important;margin-bottom:var(--spacing-2xl)}
 .page{width:var(--col-width);max-width:100%;display:none;flex-direction:column;gap:var(--spacing-xl)}
 .page.active{display:flex}
+.page-ori,.page-ai{display:flex;flex-direction:column;gap:var(--spacing-xl)}
+.page-ai{display:none}
+.page.show-ai .page-ori{display:none}
+.page.show-ai .page-ai{display:flex}
 
-/* ── 排版层级 ── */
+/* ── 排版 ── */
 .display{font-family:var(--serif);font-size:42pt;font-weight:500;line-height:1.10;color:var(--brand);letter-spacing:-0.5px}
 .byline{font-size:var(--caption-size);color:var(--stone);margin-top:-20px}
 .h1{font-family:var(--serif);font-size:var(--h1-size);font-weight:500;line-height:var(--h1-line);color:var(--near-black)}
@@ -76,8 +81,6 @@ input:focus{border-color:var(--brand)}
 .lead{font-size:var(--lead-size);font-weight:400;line-height:var(--body-line);color:var(--dark-warm)}
 .body-text{font-size:var(--body-size);font-weight:400;line-height:var(--body-line);color:var(--near-black);text-align:var(--text-align)}
 .caption-text{font-size:var(--caption-size);line-height:var(--caption-line);color:var(--stone)}
-
-/* ── 组件 ── */
 .quote{border-left:2pt solid var(--brand);padding:var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-lg);color:var(--olive);font-size:var(--body-size);line-height:var(--body-line);text-align:var(--text-align)}
 .quote cite{display:block;margin-top:var(--spacing-sm);font-size:var(--caption-size);color:var(--stone);font-style:normal}
 .dash-list{list-style:none;display:flex;flex-direction:column;gap:var(--spacing-sm)}
@@ -98,14 +101,12 @@ input:focus{border-color:var(--brand)}
 </head>
 <body>
 
-<!-- ═══ 面板 ═══ -->
 <aside class="panel">
   <div class="panel-header">
-    <h2>Kami 紙 <small id="version" style="font-size:8pt;font-weight:400;color:var(--stone)">v4.5</small></h2>
-    <p>智能排版 · 阅读</p>
+    <h2>Kami 紙 <small id="version" style="font-size:8pt;font-weight:400;color:var(--stone)">v5.0</small></h2>
+    <p>智能排版 · 双视图</p>
   </div>
 
-  <!-- 导入 -->
   <div class="group">
     <span class="group-label">📄 导入文章</span>
     <div class="upload-zone" style="border:1pt dashed var(--border-soft);border-radius:var(--radius-md);padding:var(--spacing-md);text-align:center;cursor:pointer;background:var(--parchment)" onclick="document.getElementById('fileInput').click()">
@@ -115,79 +116,48 @@ input:focus{border-color:var(--brand)}
     </div>
   </div>
 
-  <!-- 画布 -->
-  <div class="group">
-    <span class="group-label">🎨 画布配置</span>
-    <div class="radio-row">
-      <div class="radio-btn"><input type="radio" name="canvas" value="parchment" checked id="c-parch"><label for="c-parch">羊皮纸 标准<small>#F5F4ED</small></label></div>
-      <div class="radio-btn"><input type="radio" name="canvas" value="print" id="c-print"><label for="c-print">打印白<small>#FFFFFF · 适配打印</small></label></div>
-      <div class="radio-btn"><input type="radio" name="canvas" value="deep" id="c-deep"><label for="c-deep">暗夜深色<small>#141413 · 暗黑模式</small></label></div>
-      <div class="radio-btn"><input type="radio" name="canvas" value="cold" id="c-cold"><label for="c-cold">冷灰 反面示例⚠️<small>#F3F4F6 · 违反暖调</small></label></div>
-    </div>
+  <span class="group-label">🎨 画布</span>
+  <div class="radio-row">
+    <div class="radio-btn"><input type="radio" name="canvas" value="parchment" checked id="c-parch"><label for="c-parch">羊皮纸 标准<small>#F5F4ED</small></label></div>
+    <div class="radio-btn"><input type="radio" name="canvas" value="print" id="c-print"><label for="c-print">打印白<small>#FFFFFF</small></label></div>
+    <div class="radio-btn"><input type="radio" name="canvas" value="deep" id="c-deep"><label for="c-deep">暗夜深色<small>#141413</small></label></div>
+    <div class="radio-btn"><input type="radio" name="canvas" value="cold" id="c-cold"><label for="c-cold">冷灰⚠️<small>#F3F4F6</small></label></div>
   </div>
 
   <hr class="divider">
-
-  <!-- 阅读设置 -->
-  <span class="group-label">📖 阅读设置</span>
+  <span class="group-label">📖 阅读</span>
 
   <div class="group">
-    <span class="group-label">📏 栏宽</span>
-    <div class="range-wrap">
-      <span class="label-text">窄</span>
-      <input type="range" min="480" max="820" value="680" step="20" id="colWidth">
-      <span class="label-text">宽</span>
-    </div>
+    <span class="group-label">栏宽</span>
+    <div class="range-wrap"><span class="label-text">窄</span><input type="range" min="480" max="820" value="680" step="20" id="colWidth"><span class="label-text">宽</span></div>
   </div>
-
   <div class="group">
     <span class="group-label">字号</span>
-    <div class="range-wrap">
-      <span class="label-text">小</span>
-      <input type="range" min="8" max="14" value="10" step="0.5" id="fontSize">
-      <span class="label-text">大</span>
-    </div>
+    <div class="range-wrap"><span class="label-text">小</span><input type="range" min="8" max="14" value="10" step="0.5" id="fontSize"><span class="label-text">大</span></div>
   </div>
-
   <div class="group">
     <span class="group-label">行高</span>
-    <div class="range-wrap">
-      <span class="label-text">紧</span>
-      <input type="range" min="1.3" max="2.1" value="1.55" step="0.05" id="lineHeight">
-      <span class="label-text">松</span>
-    </div>
+    <div class="range-wrap"><span class="label-text">紧</span><input type="range" min="1.3" max="2.1" value="1.55" step="0.05" id="lineHeight"><span class="label-text">松</span></div>
   </div>
-
   <div class="group">
-    <span class="group-label">🔤 字体组合</span>
+    <span class="group-label">字体</span>
     <div class="radio-row">
-      <div class="radio-btn"><input type="radio" name="font" value="default" checked id="f-def"><label for="f-def">中文默认<small>衬线标题 + 无衬线正文</small></label></div>
-      <div class="radio-btn"><input type="radio" name="font" value="all-serif" id="f-serif"><label for="f-serif">全衬线<small>TsangerJinKai02 / Charter</small></label></div>
-      <div class="radio-btn"><input type="radio" name="font" value="all-sans" id="f-sans"><label for="f-sans">全无衬线<small>System UI / PingFang SC</small></label></div>
+      <div class="radio-btn"><input type="radio" name="font" value="default" checked id="f-def"><label for="f-def">衬线标题+无衬线正文</label></div>
+      <div class="radio-btn"><input type="radio" name="font" value="all-serif" id="f-serif"><label for="f-serif">全衬线</label></div>
+      <div class="radio-btn"><input type="radio" name="font" value="all-sans" id="f-sans"><label for="f-sans">全无衬线</label></div>
     </div>
   </div>
-
   <div class="group">
-    <span class="group-label">对齐</span>
+    <span class="group-label">对齐 / 模式</span>
     <div class="radio-row">
       <div class="radio-btn"><input type="radio" name="align" value="justify" checked id="al-just"><label for="al-just">两端对齐</label></div>
       <div class="radio-btn"><input type="radio" name="align" value="left" id="al-left"><label for="al-left">左对齐</label></div>
-    </div>
-  </div>
-
-  <div class="group">
-    <span class="group-label">阅读模式</span>
-    <div class="radio-row">
-      <div class="radio-btn"><input type="radio" name="mode" value="page" checked id="m-page"><label for="m-page">分页<small>← → 翻页</small></label></div>
-      <div class="radio-btn"><input type="radio" name="mode" value="scroll" id="m-scroll"><label for="m-scroll">滚动<small>连续阅读</small></label></div>
+      <div class="radio-btn"><input type="radio" name="mode" value="scroll" id="m-scroll"><label for="m-scroll">滚动模式</label></div>
     </div>
   </div>
 
   <hr class="divider">
-
-  <!-- AI -->
-  <span class="group-label">🤖 AI 智能解析</span>
-
+  <span class="group-label">🤖 AI 智能排版</span>
   <div class="group">
     <span class="group-label">服务商</span>
     <select id="provider">
@@ -195,44 +165,46 @@ input:focus{border-color:var(--brand)}
       <option value="openai">OpenAI</option>
     </select>
   </div>
-
   <div class="group">
     <span class="group-label">模型</span>
     <select id="aiModel">
-      <option value="deepseek-chat">deepseek-chat (V3)</option>
+      <option value="deepseek-chat" selected>deepseek-chat (V3)</option>
       <option value="deepseek-reasoner">deepseek-reasoner (R1)</option>
     </select>
   </div>
-
   <div class="group">
     <span class="group-label">API Key</span>
-    <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off">
+    <input type="password" id="apiKey" value="sk-64cc41e56b2245c68441064a83178481" autocomplete="off">
   </div>
-
-  <button class="ai-btn" id="aiBtn" onclick="runAI()">分析当前页</button>
-  <div class="ai-status" id="aiStatus">导入文章后，翻到某页，点分析即可智能排版该页。</div>
+  <p style="font-size:7.5pt;color:var(--stone);line-height:1.4">默认已填 DeepSeek Key，切换服务商自动更新模型列表。翻到某页→点分析→对比原始/AI 双视图。</p>
+  <button class="panel-btn primary" id="aiBtn" onclick="runAI()">分析当前页</button>
+  <div class="ai-status" id="aiStatus"></div>
 </aside>
 
-<!-- ═══ 预览 ═══ -->
-<div class="preview-wrap" id="previewWrap">
+<div class="preview-wrap">
   <div class="progress-bar" id="progressBar" style="width:0%"></div>
-  <div class="top-bar" id="topBar">
+  <div class="top-bar">
     <div style="display:flex;align-items:center;gap:8px">
       <button id="prevBtn" disabled>←</button>
       <span id="pageInfo">第 1 / 1 页</span>
       <button id="nextBtn" disabled>→</button>
     </div>
-    <div style="display:flex;gap:8px">
-      <button class="toc-trigger" id="tocBtn" onclick="toggleTOC()">☰ 目录</button>
-      <button id="scrollBtn" onclick="document.getElementById('m-scroll').click()">≡ 滚动</button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="view-toggle" id="viewToggle" style="display:none">
+        <button class="active" onclick="switchView('ori')">原始</button>
+        <button onclick="switchView('ai')">AI 排版</button>
+      </div>
+      <button class="toc-trigger" onclick="toggleTOC()">☰ 目录</button>
     </div>
   </div>
   <div class="preview" id="preview">
-    <div class="page active" id="page-0"></div>
+    <div class="page active" id="page-0">
+      <div class="page-ori"></div>
+      <div class="page-ai"></div>
+    </div>
   </div>
 </div>
 
-<!-- 目录 -->
 <div class="toc-overlay" id="tocOverlay" onclick="toggleTOC()"></div>
 <div class="toc-drawer" id="tocDrawer">
   <h3>目录</h3>
@@ -241,26 +213,10 @@ input:focus{border-color:var(--brand)}
 
 <script>
 const root=document.documentElement,preview=document.getElementById('preview');
-let currentText='',pages=[],currentPage=0,tocItems=[];
+let currentText='',pages=[],currentPage=0,tocItems=[],viewMode='ori';
+let allBlocks=[],aiBlocksByPage={};
 
-// ═══════════ 完整画布配置 ═══════════
-const CANVAS_CONFIG={
-  parchment:{'--parchment':'#F5F4ED','--ivory':'#FAF9F5','--warm-sand':'#E8E6DC','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#1B365D','--brand-light':'#2D5A8A','--near-black':'#141413','--dark-warm':'#3D3D3A','--olive':'#504e49','--stone':'#6b6a64','--border':'#E8E6DC','--border-soft':'#E5E3D8','--tag-08':'#EEF2F7','--tag-14':'#E4ECF5','--tag-18':'#D0DCE9','--tag-30':'#D6E1EE','--error':'#B53333','--ring-warm':'rgba(27,54,93,0.12)'},
-  print:{'--parchment':'#FFFFFF','--ivory':'#FAFAF9','--warm-sand':'#EBE9E3','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#1B365D','--brand-light':'#2D5A8A','--near-black':'#141413','--dark-warm':'#3D3D3A','--olive':'#504e49','--stone':'#6b6a64','--border':'#E5E3D8','--border-soft':'#EDEBE6','--tag-08':'#EEF2F7','--tag-14':'#E4ECF5','--tag-18':'#D0DCE9','--tag-30':'#D6E1EE','--error':'#B53333','--ring-warm':'rgba(27,54,93,0.12)'},
-  deep:{'--parchment':'#141413','--ivory':'#30302E','--warm-sand':'#3D3D3A','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#5B8CC7','--brand-light':'#7AA9DD','--near-black':'#E8E6DC','--dark-warm':'#CCC8BE','--olive':'#B5B0A5','--stone':'#969186','--border':'#3D3D3A','--border-soft':'#4A4945','--tag-08':'#2A3244','--tag-14':'#2F3B52','--tag-18':'#354560','--tag-30':'#3E5070','--error':'#CC5555','--ring-warm':'rgba(91,140,199,0.18)'},
-  cold:{'--parchment':'#F3F4F6','--ivory':'#FAFAFA','--warm-sand':'#E5E7EB','--deep-dark':'#1F2937','--dark-surface':'#374151','--brand':'#3B82F6','--brand-light':'#60A5FA','--near-black':'#111827','--dark-warm':'#374151','--olive':'#6B7280','--stone':'#9CA3AF','--border':'#E5E7EB','--border-soft':'#D1D5DB','--tag-08':'#DBEAFE','--tag-14':'#BFDBFE','--tag-18':'#93C5FD','--tag-30':'#60A5FA','--error':'#EF4444','--ring-warm':'rgba(59,130,246,0.14)'}
-};
-
-function applyCanvas(mode){
-  Object.entries(CANVAS_CONFIG[mode]).forEach(([k,v])=>root.style.setProperty(k,v));
-  preview.style.background='var(--parchment)';
-  document.querySelector('.panel').style.background='var(--ivory)';
-  document.querySelector('.top-bar').style.background='var(--parchment)';
-  root.style.color='var(--near-black)';
-}
-document.querySelectorAll('input[name=canvas]').forEach(r=>r.onchange=function(){applyCanvas(this.value)});
-
-// ═══ AI 服务商切换 ═══
+// ═══ AI 配置 ═══
 const AI_CONFIG={
   deepseek:{base:'https://api.deepseek.com/v1',models:['deepseek-chat','deepseek-reasoner'],labels:['deepseek-chat (V3)','deepseek-reasoner (R1)']},
   openai:{base:'https://api.openai.com/v1',models:['gpt-4o-mini','gpt-4o','o3-mini'],labels:['gpt-4o-mini','gpt-4o','o3-mini']}
@@ -271,55 +227,34 @@ document.getElementById('provider').onchange=function(){
   sel.innerHTML=cfg.models.map((m,i)=>`<option value="${m}">${cfg.labels[i]}</option>`).join('');
 };
 
-// ═══ 栏宽 ═══
+// ═══ 画布 ═══
+const CANVAS_CONFIG={
+  parchment:{'--parchment':'#F5F4ED','--ivory':'#FAF9F5','--warm-sand':'#E8E6DC','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#1B365D','--brand-light':'#2D5A8A','--near-black':'#141413','--dark-warm':'#3D3D3A','--olive':'#504e49','--stone':'#6b6a64','--border':'#E8E6DC','--border-soft':'#E5E3D8','--tag-08':'#EEF2F7','--tag-14':'#E4ECF5','--tag-18':'#D0DCE9','--tag-30':'#D6E1EE','--error':'#B53333','--ring-warm':'rgba(27,54,93,0.12)'},
+  print:{'--parchment':'#FFFFFF','--ivory':'#FAFAF9','--warm-sand':'#EBE9E3','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#1B365D','--brand-light':'#2D5A8A','--near-black':'#141413','--dark-warm':'#3D3D3A','--olive':'#504e49','--stone':'#6b6a64','--border':'#E5E3D8','--border-soft':'#EDEBE6','--tag-08':'#EEF2F7','--tag-14':'#E4ECF5','--tag-18':'#D0DCE9','--tag-30':'#D6E1EE','--error':'#B53333','--ring-warm':'rgba(27,54,93,0.12)'},
+  deep:{'--parchment':'#141413','--ivory':'#30302E','--warm-sand':'#3D3D3A','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#5B8CC7','--brand-light':'#7AA9DD','--near-black':'#E8E6DC','--dark-warm':'#CCC8BE','--olive':'#B5B0A5','--stone':'#969186','--border':'#3D3D3A','--border-soft':'#4A4945','--tag-08':'#2A3244','--tag-14':'#2F3B52','--tag-18':'#354560','--tag-30':'#3E5070','--error':'#CC5555','--ring-warm':'rgba(91,140,199,0.18)'},
+  cold:{'--parchment':'#F3F4F6','--ivory':'#FAFAFA','--warm-sand':'#E5E7EB','--deep-dark':'#1F2937','--dark-surface':'#374151','--brand':'#3B82F6','--brand-light':'#60A5FA','--near-black':'#111827','--dark-warm':'#374151','--olive':'#6B7280','--stone':'#9CA3AF','--border':'#E5E7EB','--border-soft':'#D1D5DB','--tag-08':'#DBEAFE','--tag-14':'#BFDBFE','--tag-18':'#93C5FD','--tag-30':'#60A5FA','--error':'#EF4444','--ring-warm':'rgba(59,130,246,0.14)'}
+};
+function applyCanvas(mode){
+  Object.entries(CANVAS_CONFIG[mode]).forEach(([k,v])=>root.style.setProperty(k,v));
+  preview.style.background='var(--parchment)';document.querySelector('.panel').style.background='var(--ivory)';
+  document.querySelector('.top-bar').style.background='var(--parchment)';root.style.color='var(--near-black)';
+}
+document.querySelectorAll('input[name=canvas]').forEach(r=>r.onchange=function(){applyCanvas(this.value)});
+
+// ═══ 控件绑定 ═══
 const colEl=document.getElementById('colWidth');if(colEl)colEl.oninput=function(){root.style.setProperty('--col-width',this.value+'px')};
-
-// ═══ 字号 ═══
-document.getElementById('fontSize').oninput=function(){
-  const v=parseFloat(this.value);
-  root.style.setProperty('--body-size',v+'pt');
-  root.style.setProperty('--h1-size',(v*2)+'pt');
-  root.style.setProperty('--h2-size',(v*1.5)+'pt');
-  root.style.setProperty('--h3-size',(v*1.25)+'pt');
-  root.style.setProperty('--lead-size',(v*1.1)+'pt');
-};
-
-// ═══ 行高 ═══
-document.getElementById('lineHeight').oninput=function(){
-  root.style.setProperty('--body-line',this.value);
-};
-
-// ═══ 字体 ═══
+document.getElementById('fontSize').oninput=function(){const v=parseFloat(this.value);root.style.setProperty('--body-size',v+'pt');root.style.setProperty('--h1-size',(v*2)+'pt');root.style.setProperty('--h2-size',(v*1.5)+'pt');root.style.setProperty('--h3-size',(v*1.25)+'pt');root.style.setProperty('--lead-size',(v*1.1)+'pt')};
+document.getElementById('lineHeight').oninput=function(){root.style.setProperty('--body-line',this.value)};
 document.querySelectorAll('input[name=font]').forEach(r=>r.onchange=function(){
-  const v=this.value;
-  if(v==='default'){
-    root.style.setProperty('--serif','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');
-    root.style.setProperty('--sans','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif');
-  }else if(v==='all-serif'){
-    root.style.setProperty('--serif','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');
-    root.style.setProperty('--sans','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');
-  }else{
-    root.style.setProperty('--serif','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif');
-    root.style.setProperty('--sans','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif');
-  }
+  root.style.setProperty('--serif',this.value==='all-sans'?'system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif':'"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');
+  root.style.setProperty('--sans',this.value==='all-serif'?'"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif':'system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif');
 });
-
-// ═══ 对齐 ═══
-document.querySelectorAll('input[name=align]').forEach(r=>r.onchange=function(){
-  root.style.setProperty('--text-align',this.value);
-});
-
-// ═══ 阅读模式 ═══
+document.querySelectorAll('input[name=align]').forEach(r=>r.onchange=function(){root.style.setProperty('--text-align',this.value)});
 document.querySelectorAll('input[name=mode]').forEach(r=>r.onchange=function(){
-  const v=this.value;
-  preview.classList.toggle('scroll-mode',v==='scroll');
-  document.getElementById('prevBtn').style.display=v==='scroll'?'none':'';
-  document.getElementById('nextBtn').style.display=v==='scroll'?'none':'';
-  document.getElementById('pageInfo').style.display=v==='scroll'?'none':'';
-  document.getElementById('scrollBtn').style.display=v==='scroll'?'none':'';
-  document.getElementById('tocBtn').style.display=v==='page'?'inline-flex':'none';
-  if(v==='scroll'){document.querySelectorAll('.page').forEach(p=>p.classList.add('active'));document.getElementById('progressBar').style.width='100%'}
-  else{updateProgress()}
+  const scroll=this.value==='scroll';
+  preview.classList.toggle('scroll-mode',scroll);
+  document.getElementById('prevBtn').style.display=scroll?'none':'';document.getElementById('nextBtn').style.display=scroll?'none':'';
+  document.getElementById('pageInfo').style.display=scroll?'none':'';
 });
 
 // ═══════════ DEFAULT ═══════════
@@ -345,7 +280,7 @@ Serif 正文始终保持 400 字重，标题 500，不用合成 bold。需要更
 
 ### Tag Tints · 实色对照
 
-Tag 背景必须使用实色 hex，禁止 rgba()——这是为了避免 WeasyPrint 在 PDF 导出时出现双层矩形渲染问题。
+Tag 背景必须使用实色 hex，禁止 rgba()。
 
 ---
 
@@ -356,7 +291,7 @@ Tag 背景必须使用实色 hex，禁止 rgba()——这是为了避免 WeasyPr
 
 ## 节奏与形
 
-基础单位 4pt，密度越高 margin 越小，场合越正式 margin 越大。圆角从 4pt 到 32pt 共七级，阴影只用 ring shadow、whisper shadow 与明暗交替。
+基础单位 4pt，密度越高 margin 越小，场合越正式 margin 越大。
 
 \`\`\`
 // 暖米纸 · 一种克制的温度
@@ -366,14 +301,12 @@ document = serif × hierarchy + generous_space
 beauty   = constraints × intention ÷ noise
 \`\`\`
 
-▲ Kami 设计哲学，用等宽字体呈现，ivory 底色 + 4pt 圆角，无边框。`;
-
+▲ Kami 设计哲学，用等宽字体呈现。`;
 currentText=DEFAULT_TEXT;
 
 // ═══════════ PARSER ═══════════
 function parseText(text){
-  const lines=text.split('\n'),blocks=[];
-  let i=0;
+  const lines=text.split('\n'),blocks=[];let i=0;
   while(i<lines.length){
     let line=lines[i].trim();
     if(!line){i++;continue}
@@ -399,8 +332,8 @@ function blockToHTML(b,author,date){
   switch(b.type){
     case'display':return (author||date)?`<h1 class="display">${esc(b.text)}</h1><div class="byline">${[author,date].filter(Boolean).join(' · ')}</div>`:`<h1 class="display">${esc(b.text)}</h1>`;
     case'sec-title':return`<div class="sec-title">${esc(b.text)}</div>`;
-    case'h1':return`<h2 class="h1" data-heading="${esc(b.text)}">${esc(b.text)}</h2>`;
-    case'h2':return`<h3 class="h2" data-heading="${esc(b.text)}">${esc(b.text)}</h3>`;
+    case'h1':return`<h2 class="h1">${esc(b.text)}</h2>`;
+    case'h2':return`<h3 class="h2">${esc(b.text)}</h3>`;
     case'h3':return`<h3 class="h3">${esc(b.text)}</h3>`;
     case'quote':return`<blockquote class="quote">${esc(b.text)}</blockquote>`;
     case'body':return`<p class="body-text">${esc(b.text)}</p>`;
@@ -414,34 +347,37 @@ function blockToHTML(b,author,date){
   }
 }
 
-// ═══ 分页 + 目录 ═══
+// ═══ 渲染 + 目录 + 分页 ═══
 function renderPages(){
-  const blocks=window._aiMeta?window._aiMeta.blocks:parseText(currentText);
-  const author=window._aiMeta?window._aiMeta.author:'';
-  const date=window._aiMeta?window._aiMeta.date:'';
-  const perPage=6,pageCount=Math.max(1,Math.ceil(blocks.length/perPage));
+  allBlocks=parseText(currentText);
+  aiBlocksByPage={};viewMode='ori';
+  doRender();
+}
+
+function doRender(){
+  const perPage=6,pageCount=Math.max(1,Math.ceil(allBlocks.length/perPage));
   pages=[];tocItems=[];
 
-  for(let p=0;p<pageCount;p++){
-    const start=p*perPage,end=Math.min(start+perPage,blocks.length);
-    const html=blocks.slice(start,end).map(b=>{
-      if(b.type==='display')return blockToHTML(b,author,date);
-      if(b.type==='lead')return`<p class="lead">${esc(b.text)}</p>`;
-      return blockToHTML(b);
-    }).join('\n');
-    pages.push(html);
-  }
-  currentPage=0;
-  preview.innerHTML=pages.map((html,i)=>`<div class="page${i===0?' active':''}" id="page-${i}">${html}</div>`).join('');
-
-  // Build TOC from headings
-  blocks.forEach((b,i)=>{
-    if(b.type==='h1')tocItems.push({level:'h1',text:b.text,page:Math.floor(i/perPage)});
-    if(b.type==='h2')tocItems.push({level:'h2',text:b.text,page:Math.floor(i/perPage)});
-  });
+  allBlocks.forEach((b,i)=>{if(b.type==='h1')tocItems.push({level:'h1',text:b.text,page:Math.floor(i/perPage)});if(b.type==='h2')tocItems.push({level:'h2',text:b.text,page:Math.floor(i/perPage)})});
   renderTOC();
-  updatePageNav();
-  updateProgress();
+
+  preview.innerHTML='';
+  for(let p=0;p<pageCount;p++){
+    const start=p*perPage,end=Math.min(start+perPage,allBlocks.length);
+    const oriHTML=allBlocks.slice(start,end).map(b=>blockToHTML(b)).join('\n');
+    const aiBlocks=aiBlocksByPage[p]||allBlocks.slice(start,end);
+    const aiHTML=aiBlocks.map(b=>blockToHTML(b)).join('\n');
+    const hasAI=!!aiBlocksByPage[p];
+    pages.push(oriHTML);
+    const pageDiv=document.createElement('div');
+    pageDiv.className='page'+(p===0?' active':'');
+    pageDiv.id='page-'+p;
+    pageDiv.innerHTML=`<div class="page-ori">${oriHTML}</div><div class="page-ai">${hasAI?aiHTML:'<p class="body-text" style="color:var(--stone);text-align:center;padding:60px 0">点击左侧「分析当前页」即可生成 AI 智能排版</p>'}</div>`;
+    preview.appendChild(pageDiv);
+  }
+
+  if(viewMode==='ai'&&!Object.keys(aiBlocksByPage).length)switchView('ori');
+  currentPage=0;updatePageView();
 }
 
 function renderTOC(){
@@ -454,58 +390,60 @@ function goToPage(n){
   if(n<0||n>=pages.length)return;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+n).classList.add('active');
-  currentPage=n;preview.scrollTop=0;updatePageNav();updateProgress();
+  currentPage=n;preview.scrollTop=0;updatePageView();
 }
-function updatePageNav(){
+function updatePageView(){
   document.getElementById('prevBtn').disabled=currentPage===0;
   document.getElementById('nextBtn').disabled=currentPage===pages.length-1;
   document.getElementById('pageInfo').textContent=`第 ${currentPage+1} / ${pages.length} 页`;
-}
-function updateProgress(){
   const pct=pages.length?Math.round(((currentPage+1)/pages.length)*100):0;
   document.getElementById('progressBar').style.width=pct+'%';
+  // view toggle visibility
+  const hasAI=!!aiBlocksByPage[currentPage];
+  document.getElementById('viewToggle').style.display=hasAI?'inline-flex':'none';
+  if(!hasAI&&viewMode==='ai')switchView('ori');
+  applyView();
+}
+function applyView(){
+  const page=document.getElementById('page-'+currentPage);
+  if(!page)return;
+  page.classList.toggle('show-ai',viewMode==='ai');
+  const btns=document.querySelectorAll('#viewToggle button');
+  btns[0].classList.toggle('active',viewMode==='ori');
+  btns[1].classList.toggle('active',viewMode==='ai');
+  if(viewMode==='ai'&&aiBlocksByPage[currentPage]){
+    btns[1].innerHTML='AI 排版<span class="ai-badge">✓</span>';
+  }
+}
+function switchView(mode){
+  viewMode=mode;applyView();
 }
 document.getElementById('prevBtn').onclick=()=>goToPage(currentPage-1);
 document.getElementById('nextBtn').onclick=()=>goToPage(currentPage+1);
-
-// ═══ 键盘翻页 ═══
 document.addEventListener('keydown',e=>{
-  if(document.querySelector('input:focus,select:focus'))return;
+  if(document.querySelector('input:focus'))return;
   if(e.key==='ArrowLeft')goToPage(currentPage-1);
   if(e.key==='ArrowRight')goToPage(currentPage+1);
 });
-
-// ═══ 目录 ═══
-function toggleTOC(){
-  const d=document.getElementById('tocDrawer'),o=document.getElementById('tocOverlay');
-  d.classList.toggle('open');o.classList.toggle('show');
-}
+function toggleTOC(){const d=document.getElementById('tocDrawer'),o=document.getElementById('tocOverlay');d.classList.toggle('open');o.classList.toggle('show')}
 
 // ═══════════ AI 分析当前页 ═══════════
-let aiBlocksByPage={};
-
 async function runAI(){
-  const key=document.getElementById('apiKey').value.trim();
-  if(!key)return setStatus('请填写 API Key');
-  const provider=document.getElementById('provider').value;
-  const cfg=AI_CONFIG[provider],model=document.getElementById('aiModel').value,base=cfg.base;
   if(!currentText||currentText===DEFAULT_TEXT)return setStatus('请先导入文章');
-
-  const pageIdx=currentPage;
-  const rawBlocks=parseText(currentText);
-  const perPage=6,start=pageIdx*perPage,end=Math.min(start+perPage,rawBlocks.length);
-  const pageBlocks=rawBlocks.slice(start,end);
-
+  const pageIdx=currentPage,perPage=6,start=pageIdx*perPage,end=Math.min(start+perPage,allBlocks.length);
+  const pageBlocks=allBlocks.slice(start,end);
   const pageText=pageBlocks.map(b=>{
     if(b.text)return b.text;if(b.items)return b.items.join('\n');
     if(b.tags)return b.tags.join(', ');return '';
   }).join('\n\n');
-
   if(!pageText.trim())return setStatus('当前页无内容');
 
-  setStatus(`分析第 ${pageIdx+1} 页…`);document.getElementById('aiBtn').disabled=true;
+  setStatus('分析中…');document.getElementById('aiBtn').disabled=true;
   try{
-    const res=await fetch(base+'/chat/completions',{
+    const key=document.getElementById('apiKey').value.trim();
+    const provider=document.getElementById('provider').value;
+    const cfg=AI_CONFIG[provider],model=document.getElementById('aiModel').value;
+    const res=await fetch(cfg.base+'/chat/completions',{
       method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
       body:JSON.stringify({
         model,temperature:0.1,max_tokens:1500,
@@ -515,77 +453,32 @@ async function runAI(){
         },{role:'user',content:pageText}]
       })
     });
-    if(!res.ok)throw new Error(res.status+' '+res.statusText);
+    if(!res.ok)throw new Error(res.status);
     let content=(await res.json()).choices[0].message.content;
     content=content.replace(/```json|```/g,'').trim();
     const parsed=JSON.parse(content);
-    const newBlocks=Array.isArray(parsed)?parsed:(parsed.blocks||[]);
+    const aiBlocks=Array.isArray(parsed)?parsed:(parsed.blocks||[]);
 
-    // Save AI result for this page
-    aiBlocksByPage[pageIdx]=newBlocks;
-    // Re-render: merge AI blocks into full block list
-    const allBlocks=[...rawBlocks];
-    allBlocks.splice(start,end-start,...newBlocks);
-    rerenderFromBlocks(allBlocks);
-
-    setStatus(`✅ 第 ${pageIdx+1} 页分析完成`);
+    // Save and re-render current page
+    aiBlocksByPage[pageIdx]=aiBlocks;
+    const pageEl=document.getElementById('page-'+pageIdx);
+    const aiHTML=aiBlocks.map(b=>blockToHTML(b)).join('\n');
+    pageEl.querySelector('.page-ai').innerHTML=aiHTML;
+    updatePageView();
+    switchView('ai');
+    setStatus(`✅ 第 ${pageIdx+1} 页完成`);
   }catch(e){setStatus('❌ '+e.message)}
   finally{document.getElementById('aiBtn').disabled=false}
 }
 
-function rerenderFromBlocks(blocks){
-  const perPage=6;
-  // Build TOC
-  tocItems=[];blocks.forEach((b,i)=>{if(b.type==='h1')tocItems.push({level:'h1',text:b.text,page:Math.floor(i/perPage)});if(b.type==='h2')tocItems.push({level:'h2',text:b.text,page:Math.floor(i/perPage)})});
-  renderTOC();
-  // Render current page + rebuild all pages
-  const start=currentPage*perPage,end=Math.min(start+perPage,blocks.length);
-  const author=window._aiMeta?window._aiMeta.author:'';
-  const date=window._aiMeta?window._aiMeta.date:'';
-  const html=blocks.slice(start,end).map(b=>{
-    if(b.type==='display')return blockToHTML(b,author,date);
-    if(b.type==='lead')return`<p class="lead">${esc(b.text)}</p>`;
-    return blockToHTML(b);
-  }).join('\n');
-
-  const pageEl=document.getElementById('page-'+currentPage);
-  pageEl.innerHTML=html;
-  // Update page count
-  pages=[];for(let p=0;p<Math.ceil(blocks.length/perPage);p++)pages.push('');
-  pages.splice(currentPage,1,html);
-  updatePageNav();updateProgress();
-}
-
-function blocksToText(blocks){
-  return blocks.map(b=>{
-    switch(b.type){
-      case'display':return'# '+b.text;case'h1':return'## '+b.text;case'h2':return'### '+b.text;
-      case'quote':return'> '+b.text;case'lead':return b.text;case'body':return b.text;
-      case'dash-list':return b.items.map(i=>'- '+i).join('\n');case'code':return'```\n'+b.text+'\n```';
-      case'tags':return'* '+b.tags.join(', ');default:return b.text||'';
-    }
-  }).join('\n\n');
-}
-
 function setStatus(m){document.getElementById('aiStatus').textContent=m}
 
-// ═══ 文件导入 ═══
+// ═══ 导入 ═══
 function handleFile(file){
-  if(!file||!file.name.endsWith('.txt')){
-    setStatus('请选择 .txt 文件');
-    return;
-  }
+  if(!file||!file.name.endsWith('.txt')){setStatus('请选择 .txt');return}
   const r=new FileReader();
   r.onload=function(){
-    try{
-      currentText=r.result;window._aiMeta=null;
-      document.getElementById('fileName').textContent='📎 '+file.name;
-      setStatus('已导入，可点「分析」识别结构');
-      renderPages();
-    }catch(e){
-      setStatus('导入渲染失败: '+e.message);
-      console.error(e);
-    }
+    try{currentText=r.result;document.getElementById('fileName').textContent='📎 '+file.name;setStatus('已导入');renderPages()}catch(e){setStatus('导入失败: '+e.message)}
   };
   r.onerror=function(){setStatus('文件读取失败')};
   r.readAsText(file,'UTF-8');
