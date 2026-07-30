@@ -6,26 +6,7 @@
 <title>Kami 紙 · 智能排版</title>
 <style>
 /* ═══════════ Kami 设计系统 ═══════════ */
-:root{
-  --parchment:#F5F4ED;--ivory:#FAF9F5;--warm-sand:#E8E6DC;
-  --deep-dark:#141413;--dark-surface:#30302E;
-  --brand:#1B365D;--brand-light:#2D5A8A;
-  --near-black:#141413;--dark-warm:#3D3D3A;--olive:#504e49;--stone:#6b6a64;
-  --border:#E8E6DC;--border-soft:#E5E3D8;
-  --tag-08:#EEF2F7;--tag-14:#E4ECF5;--tag-18:#D0DCE9;--tag-30:#D6E1EE;
-  --error:#B53333;
-  --ring-warm:rgba(27,54,93,0.12);
-  --serif:"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif;
-  --sans:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-  --mono:"JetBrains Mono","Fira Code","SF Mono",monospace;
-  --body-size:10pt;--body-line:1.55;--col-width:680px;
-  --h1-size:20pt;--h1-line:1.20;--h2-size:15pt;--h2-line:1.25;
-  --h3-size:12.5pt;--h3-line:1.30;--lead-size:11pt;
-  --caption-size:9pt;--caption-line:1.45;--label-size:7.5pt;--label-line:1.35;
-  --spacing-xs:3px;--spacing-sm:5px;--spacing-md:10px;--spacing-lg:20px;
-  --spacing-xl:32px;--spacing-2xl:48px;
-  --radius-sm:4px;--radius-md:8px;--radius-lg:16px;--radius-xl:24px;
-}
+:root{--parchment:#F5F4ED;--ivory:#FAF9F5;--warm-sand:#E8E6DC;--deep-dark:#141413;--dark-surface:#30302E;--brand:#1B365D;--brand-light:#2D5A8A;--near-black:#141413;--dark-warm:#3D3D3A;--olive:#504e49;--stone:#6b6a64;--border:#E8E6DC;--border-soft:#E5E3D8;--tag-08:#EEF2F7;--tag-14:#E4ECF5;--tag-18:#D0DCE9;--tag-30:#D6E1EE;--error:#B53333;--ring-warm:rgba(27,54,93,0.12);--serif:"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif;--sans:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;--mono:"JetBrains Mono","Fira Code","SF Mono",monospace;--body-size:10pt;--body-line:1.55;--col-width:680px;--h1-size:20pt;--h1-line:1.20;--h2-size:15pt;--h2-line:1.25;--h3-size:12.5pt;--h3-line:1.30;--lead-size:11pt;--caption-size:9pt;--caption-line:1.45;--label-size:7.5pt;--label-line:1.35;--spacing-xs:3px;--spacing-sm:5px;--spacing-md:10px;--spacing-lg:20px;--spacing-xl:32px;--spacing-2xl:48px;--radius-sm:4px;--radius-md:8px;--radius-lg:16px;--radius-xl:24px;--text-align:justify}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--parchment);color:var(--near-black);font-family:var(--sans);font-size:var(--body-size);line-height:var(--body-line);font-weight:400}
 body{display:flex;overflow:hidden}
@@ -38,31 +19,51 @@ body{display:flex;overflow:hidden}
 .group-label{font-size:var(--label-size);font-weight:600;color:var(--olive);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px}
 .radio-row{display:flex;flex-direction:column;gap:var(--spacing-xs)}
 .radio-btn{position:relative}
-.radio-btn input{position:absolute;opacity:0;pointer-events:none}
-.radio-btn label{display:flex;flex-direction:column;padding:8px 12px;border-radius:var(--radius-sm);font-size:9pt;cursor:pointer;background:var(--warm-sand);color:var(--olive);transition:all 0.15s;border:1px solid transparent;line-height:1.4}
+.radio-btn input{position:absolute;opacity:0}
+.radio-btn label{display:flex;flex-direction:column;padding:8px 12px;border-radius:var(--radius-sm);font-size:9pt;cursor:pointer;background:var(--warm-sand);color:var(--olive);border:1px solid transparent;line-height:1.4;transition:.15s}
 .radio-btn label small{font-size:7.5pt;color:var(--stone);font-weight:400}
 .radio-btn input:checked+label{background:var(--brand);color:var(--ivory)}
 .radio-btn input:checked+label small{color:rgba(255,255,255,0.7)}
 .range-wrap{display:flex;align-items:center;gap:var(--spacing-sm)}
 .range-wrap input[type=range]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:var(--warm-sand);border-radius:2px;outline:none}
 .range-wrap input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--brand);cursor:pointer;box-shadow:0 0 0 2px var(--ivory),0 0 0 3px var(--ring-warm)}
-
-/* AI section */
-.ai-section{border-top:1px dashed var(--border-soft);padding-top:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-sm)}
-.ai-section input{width:100%;padding:6px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:8.5pt;font-family:var(--mono);background:var(--parchment);color:var(--dark-warm);outline:none}
-.ai-section input:focus{border-color:var(--brand)}
+select{width:100%;padding:8px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:9pt;font-family:var(--sans);background:var(--parchment);color:var(--dark-warm);outline:none;cursor:pointer}
+select:focus{border-color:var(--brand)}
+input[type=password],input[type=text]{width:100%;padding:6px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:8.5pt;font-family:var(--mono);background:var(--parchment);color:var(--dark-warm);outline:none}
+input:focus{border-color:var(--brand)}
 .ai-btn{padding:8px 16px;border-radius:var(--radius-md);font-size:9pt;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);background:var(--brand);color:var(--ivory);width:100%}
 .ai-btn:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
 .ai-btn:disabled{opacity:.4;cursor:default}
-.ai-status{font-size:8pt;color:var(--stone);min-height:3em;line-height:1.5}
+.ai-status{font-size:8pt;color:var(--stone);min-height:3em;line-height:1.5;word-break:break-all}
+.divider{border:none;border-top:0.5pt dashed var(--border-soft);margin:0}
 
-/* ═══════════ 预览+分页 ═══════════ */
-.preview-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.page-nav{display:flex;align-items:center;justify-content:center;gap:var(--spacing-md);padding:var(--spacing-md) var(--spacing-xl);background:var(--parchment);border-bottom:1px solid var(--border-soft);flex-shrink:0;font-size:9pt;color:var(--stone)}
-.page-nav button{padding:4px 12px;border-radius:var(--radius-sm);font-size:9pt;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);background:var(--warm-sand);color:var(--olive);transition:all 0.15s}
-.page-nav button:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
-.page-nav button:disabled{opacity:0.3;cursor:default}
+/* ═══════════ 预览区 ═══════════ */
+.preview-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+/* 进度条 */
+.progress-bar{position:absolute;top:0;left:0;height:3px;background:var(--brand);z-index:10;transition:width .3s}
+/* 顶部导航 */
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:var(--spacing-sm) var(--spacing-xl);background:var(--parchment);border-bottom:1px solid var(--border-soft);flex-shrink:0;font-size:9pt;color:var(--stone);gap:var(--spacing-md)}
+.top-bar button{padding:4px 12px;border-radius:var(--radius-sm);font-size:9pt;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);background:var(--warm-sand);color:var(--olive);transition:.15s}
+.top-bar button:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
+.top-bar button:disabled{opacity:0.3;cursor:default}
+.top-bar button.active{background:var(--brand);color:var(--ivory)}
+
+/* 目录抽屉 */
+.toc-trigger{display:flex;align-items:center;gap:4px}
+.toc-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.08);z-index:50;display:none}
+.toc-overlay.show{display:block}
+.toc-drawer{position:fixed;top:0;right:0;bottom:0;width:280px;background:var(--ivory);z-index:51;box-shadow:0 0 0 1pt var(--ring-warm),-4pt 0 24pt rgba(0,0,0,0.06);transform:translateX(100%);transition:transform .25s ease;overflow-y:auto;padding:var(--spacing-xl) var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-sm);border-radius:var(--radius-lg) 0 0 var(--radius-lg)}
+.toc-drawer.open{transform:translateX(0)}
+.toc-drawer h3{font-family:var(--serif);font-size:var(--h3-size);font-weight:500;color:var(--brand);margin-bottom:var(--spacing-sm)}
+.toc-item{font-size:9pt;cursor:pointer;padding:6px 10px;border-radius:var(--radius-sm);color:var(--olive);transition:.15s;font-weight:500}
+.toc-item:hover{background:var(--warm-sand);color:var(--brand)}
+.toc-item.h1{padding-left:4px;font-weight:600}
+.toc-item.h2{padding-left:16px;font-size:8.5pt}
+
+/* 内容区 */
 .preview{flex:1;overflow-y:auto;display:flex;justify-content:center;padding:var(--spacing-2xl) var(--spacing-xl)}
+.preview.scroll-mode{padding:var(--spacing-2xl) var(--spacing-xl);display:block}
+.preview.scroll-mode .page{display:flex!important;margin-bottom:var(--spacing-2xl);page-break-after:auto}
 .page{width:var(--col-width);max-width:100%;display:none;flex-direction:column;gap:var(--spacing-xl)}
 .page.active{display:flex}
 
@@ -73,31 +74,26 @@ body{display:flex;overflow:hidden}
 .h2{font-family:var(--serif);font-size:var(--h2-size);font-weight:500;line-height:var(--h2-line);color:var(--near-black)}
 .h3{font-family:var(--serif);font-size:var(--h3-size);font-weight:500;line-height:var(--h3-line);color:var(--olive)}
 .lead{font-size:var(--lead-size);font-weight:400;line-height:var(--body-line);color:var(--dark-warm)}
-.body-text{font-size:var(--body-size);font-weight:400;line-height:var(--body-line);color:var(--near-black)}
+.body-text{font-size:var(--body-size);font-weight:400;line-height:var(--body-line);color:var(--near-black);text-align:var(--text-align)}
 .caption-text{font-size:var(--caption-size);line-height:var(--caption-line);color:var(--stone)}
 
 /* ── 组件 ── */
-.quote{border-left:2pt solid var(--brand);padding:var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-lg);color:var(--olive);font-size:var(--body-size);line-height:var(--body-line)}
+.quote{border-left:2pt solid var(--brand);padding:var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-lg);color:var(--olive);font-size:var(--body-size);line-height:var(--body-line);text-align:var(--text-align)}
 .quote cite{display:block;margin-top:var(--spacing-sm);font-size:var(--caption-size);color:var(--stone);font-style:normal}
-.metric-row{display:flex;gap:var(--spacing-xl);flex-wrap:wrap}
-.metric{display:flex;flex-direction:column;gap:2px}
-.metric .m-num{font-family:var(--serif);font-size:28pt;font-weight:500;line-height:1;color:var(--brand);font-variant-numeric:tabular-nums}
-.metric .m-label{font-size:var(--label-size);font-weight:600;color:var(--olive);text-transform:uppercase;letter-spacing:0.5px}
 .dash-list{list-style:none;display:flex;flex-direction:column;gap:var(--spacing-sm)}
 .dash-list li{padding-left:var(--spacing-lg);position:relative;font-size:var(--body-size);line-height:var(--body-line);color:var(--near-black)}
 .dash-list li::before{content:'—';position:absolute;left:0;color:var(--olive)}
 .code-block{background:var(--ivory);border-radius:var(--radius-sm);padding:var(--spacing-lg);font-family:var(--mono);font-size:9pt;line-height:1.55;color:var(--dark-warm);overflow-x:auto;white-space:pre}
 .tag-row{display:flex;gap:var(--spacing-sm);flex-wrap:wrap}
-.tag{padding:3px 10px;border-radius:var(--radius-sm);font-size:8pt;font-weight:600;font-family:var(--sans)}
+.tag{padding:3px 10px;border-radius:var(--radius-sm);font-size:8pt;font-weight:600}
 .tag-light{background:var(--tag-08);color:var(--brand)}
 .tag-standard{background:var(--tag-18);color:var(--brand)}
 .tag-brush{background:linear-gradient(135deg,var(--tag-14),var(--tag-30));color:var(--brand)}
 .feat-card{background:var(--ivory);border-radius:var(--radius-lg);padding:var(--spacing-xl);box-shadow:0 4pt 24pt rgba(0,0,0,0.05)}
 .sec-title{font-family:var(--serif);font-size:15pt;font-weight:500;color:var(--near-black)}
-.divider{border:none;border-top:0.5pt dashed var(--border-soft);margin:0}
+.label-text{font-size:var(--label-size);font-weight:600;line-height:var(--label-line);color:var(--olive);text-transform:uppercase;letter-spacing:0.5px}
 .info-strip{display:flex;gap:var(--spacing-md);align-items:center;padding:var(--spacing-sm) 0}
 .info-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--brand)}
-.label-text{font-size:var(--label-size);font-weight:600;line-height:var(--label-line);color:var(--olive);text-transform:uppercase;letter-spacing:0.5px}
 </style>
 </head>
 <body>
@@ -106,124 +102,216 @@ body{display:flex;overflow:hidden}
 <aside class="panel">
   <div class="panel-header">
     <h2>Kami 紙</h2>
-    <p>智能排版</p>
+    <p>智能排版 · 阅读</p>
   </div>
 
   <!-- 导入 -->
   <div class="group">
-    <span class="group-label">📄 导入文章 (.txt)</span>
+    <span class="group-label">📄 导入文章</span>
     <div class="upload-zone" style="border:1pt dashed var(--border-soft);border-radius:var(--radius-md);padding:var(--spacing-md);text-align:center;cursor:pointer;background:var(--parchment)" onclick="document.getElementById('fileInput').click()">
-      <p style="font-size:9pt;color:var(--stone)">点击或拖拽上传</p>
+      <p style="font-size:9pt;color:var(--stone)">点击或拖拽 .txt 上传</p>
       <p class="filename" id="fileName" style="font-size:8pt;color:var(--olive);margin-top:4px"></p>
       <input type="file" style="display:none" id="fileInput" accept=".txt" onchange="handleFile(this.files[0])">
     </div>
   </div>
 
-  <!-- 画布配置 -->
+  <!-- 画布 -->
   <div class="group">
     <span class="group-label">🎨 画布配置</span>
-    <div class="radio-row" id="canvasGroup">
-      <div class="radio-btn"><input type="radio" name="canvas" value="parchment" checked id="c-parch"><label for="c-parch">羊皮纸 标准<small>#F5F4ED · Kami 默认底色</small></label></div>
-      <div class="radio-btn"><input type="radio" name="canvas" value="print" id="c-print"><label for="c-print">打印白<small>#FFFFFF · 适配 A4 打印输出</small></label></div>
-      <div class="radio-btn"><input type="radio" name="canvas" value="deep" id="c-deep"><label for="c-deep">暗夜深色<small>#141413 · 橄榄底暗黑模式</small></label></div>
-      <div class="radio-btn"><input type="radio" name="canvas" value="cold" id="c-cold"><label for="c-cold">冷灰 反面示例⚠️<small>#F3F4F6 · 违反 Kami 暖调原则</small></label></div>
+    <div class="radio-row">
+      <div class="radio-btn"><input type="radio" name="canvas" value="parchment" checked id="c-parch"><label for="c-parch">羊皮纸 标准<small>#F5F4ED</small></label></div>
+      <div class="radio-btn"><input type="radio" name="canvas" value="print" id="c-print"><label for="c-print">打印白<small>#FFFFFF · 适配打印</small></label></div>
+      <div class="radio-btn"><input type="radio" name="canvas" value="deep" id="c-deep"><label for="c-deep">暗夜深色<small>#141413 · 暗黑模式</small></label></div>
+      <div class="radio-btn"><input type="radio" name="canvas" value="cold" id="c-cold"><label for="c-cold">冷灰 反面示例⚠️<small>#F3F4F6 · 违反暖调</small></label></div>
     </div>
   </div>
 
-  <!-- 栏宽 -->
+  <hr class="divider">
+
+  <!-- 阅读设置 -->
+  <span class="group-label">📖 阅读设置</span>
+
   <div class="group">
-    <span class="group-label">📏 栏宽</span>
+    <span class="group-label">字号</span>
     <div class="range-wrap">
-      <span class="label-text">窄</span>
-      <input type="range" min="480" max="820" value="680" step="20" id="colWidth">
-      <span class="label-text">宽</span>
+      <span class="label-text">小</span>
+      <input type="range" min="8" max="14" value="10" step="0.5" id="fontSize">
+      <span class="label-text">大</span>
     </div>
   </div>
 
-  <!-- AI 解析 -->
-  <div class="ai-section">
-    <span class="group-label">🤖 AI 智能解析</span>
-    <input type="password" id="apiKey" placeholder="OpenAI API Key (sk-...)">
-    <input type="text" id="apiBase" placeholder="API Base (可选，默认 OpenAI)" value="">
-    <input type="text" id="apiModel" placeholder="模型 (默认 gpt-4o-mini)" value="gpt-4o-mini">
-    <button class="ai-btn" id="aiBtn" onclick="runAI()">分析文章结构</button>
-    <div class="ai-status" id="aiStatus">识别标题、作者、章节层级，自动排版。</div>
+  <div class="group">
+    <span class="group-label">行高</span>
+    <div class="range-wrap">
+      <span class="label-text">紧</span>
+      <input type="range" min="1.3" max="2.1" value="1.55" step="0.05" id="lineHeight">
+      <span class="label-text">松</span>
+    </div>
   </div>
+
+  <div class="group">
+    <span class="group-label">🔤 字体组合</span>
+    <div class="radio-row">
+      <div class="radio-btn"><input type="radio" name="font" value="default" checked id="f-def"><label for="f-def">中文默认<small>衬线标题 + 无衬线正文</small></label></div>
+      <div class="radio-btn"><input type="radio" name="font" value="all-serif" id="f-serif"><label for="f-serif">全衬线<small>TsangerJinKai02 / Charter</small></label></div>
+      <div class="radio-btn"><input type="radio" name="font" value="all-sans" id="f-sans"><label for="f-sans">全无衬线<small>System UI / PingFang SC</small></label></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="group-label">对齐</span>
+    <div class="radio-row">
+      <div class="radio-btn"><input type="radio" name="align" value="justify" checked id="al-just"><label for="al-just">两端对齐</label></div>
+      <div class="radio-btn"><input type="radio" name="align" value="left" id="al-left"><label for="al-left">左对齐</label></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="group-label">阅读模式</span>
+    <div class="radio-row">
+      <div class="radio-btn"><input type="radio" name="mode" value="page" checked id="m-page"><label for="m-page">分页<small>← → 翻页</small></label></div>
+      <div class="radio-btn"><input type="radio" name="mode" value="scroll" id="m-scroll"><label for="m-scroll">滚动<small>连续阅读</small></label></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- AI -->
+  <span class="group-label">🤖 AI 智能解析</span>
+
+  <div class="group">
+    <span class="group-label">服务商</span>
+    <select id="provider">
+      <option value="deepseek" selected>DeepSeek</option>
+      <option value="openai">OpenAI</option>
+    </select>
+  </div>
+
+  <div class="group">
+    <span class="group-label">模型</span>
+    <select id="aiModel">
+      <option value="deepseek-chat">deepseek-chat (V3)</option>
+      <option value="deepseek-reasoner">deepseek-reasoner (R1)</option>
+    </select>
+  </div>
+
+  <div class="group">
+    <span class="group-label">API Key</span>
+    <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off">
+  </div>
+
+  <button class="ai-btn" id="aiBtn" onclick="runAI()">分析文章结构</button>
+  <div class="ai-status" id="aiStatus">导入文章后，填 API Key 即可识别标题/作者/章节。</div>
 </aside>
 
 <!-- ═══ 预览 ═══ -->
-<div class="preview-wrap">
-  <nav class="page-nav" id="pageNav">
-    <button id="prevBtn" disabled>←</button>
-    <span id="pageInfo">第 1 / 1 页</span>
-    <button id="nextBtn" disabled>→</button>
-  </nav>
+<div class="preview-wrap" id="previewWrap">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  <div class="top-bar" id="topBar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <button id="prevBtn" disabled>←</button>
+      <span id="pageInfo">第 1 / 1 页</span>
+      <button id="nextBtn" disabled>→</button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="toc-trigger" id="tocBtn" onclick="toggleTOC()">☰ 目录</button>
+      <button id="scrollBtn" onclick="document.getElementById('m-scroll').click()">≡ 滚动</button>
+    </div>
+  </div>
   <div class="preview" id="preview">
     <div class="page active" id="page-0"></div>
   </div>
 </div>
 
+<!-- 目录 -->
+<div class="toc-overlay" id="tocOverlay" onclick="toggleTOC()"></div>
+<div class="toc-drawer" id="tocDrawer">
+  <h3>目录</h3>
+  <div id="tocList"><span style="font-size:9pt;color:var(--stone)">暂无章节</span></div>
+</div>
+
 <script>
 const root=document.documentElement,preview=document.getElementById('preview');
-let currentText='',pages=[],currentPage=0;
+let currentText='',pages=[],currentPage=0,tocItems=[];
 
-// ═══════════ 完整 Kami 画布配置 ═══════════
+// ═══════════ 完整画布配置 ═══════════
 const CANVAS_CONFIG={
-  parchment:{
-    '--parchment':'#F5F4ED','--ivory':'#FAF9F5','--warm-sand':'#E8E6DC',
-    '--deep-dark':'#141413','--dark-surface':'#30302E',
-    '--brand':'#1B365D','--brand-light':'#2D5A8A',
-    '--near-black':'#141413','--dark-warm':'#3D3D3A','--olive':'#504e49','--stone':'#6b6a64',
-    '--border':'#E8E6DC','--border-soft':'#E5E3D8',
-    '--tag-08':'#EEF2F7','--tag-14':'#E4ECF5','--tag-18':'#D0DCE9','--tag-30':'#D6E1EE',
-    '--error':'#B53333','--ring-warm':'rgba(27,54,93,0.12)',
-  },
-  print:{
-    '--parchment':'#FFFFFF','--ivory':'#FAFAF9','--warm-sand':'#EBE9E3',
-    '--deep-dark':'#141413','--dark-surface':'#30302E',
-    '--brand':'#1B365D','--brand-light':'#2D5A8A',
-    '--near-black':'#141413','--dark-warm':'#3D3D3A','--olive':'#504e49','--stone':'#6b6a64',
-    '--border':'#E5E3D8','--border-soft':'#EDEBE6',
-    '--tag-08':'#EEF2F7','--tag-14':'#E4ECF5','--tag-18':'#D0DCE9','--tag-30':'#D6E1EE',
-    '--error':'#B53333','--ring-warm':'rgba(27,54,93,0.12)',
-  },
-  deep:{
-    '--parchment':'#141413','--ivory':'#30302E','--warm-sand':'#3D3D3A',
-    '--deep-dark':'#141413','--dark-surface':'#30302E',
-    '--brand':'#5B8CC7','--brand-light':'#7AA9DD',
-    '--near-black':'#E8E6DC','--dark-warm':'#CCC8BE','--olive':'#B5B0A5','--stone':'#969186',
-    '--border':'#3D3D3A','--border-soft':'#4A4945',
-    '--tag-08':'#2A3244','--tag-14':'#2F3B52','--tag-18':'#354560','--tag-30':'#3E5070',
-    '--error':'#CC5555','--ring-warm':'rgba(91,140,199,0.18)',
-  },
-  cold:{
-    '--parchment':'#F3F4F6','--ivory':'#FAFAFA','--warm-sand':'#E5E7EB',
-    '--deep-dark':'#1F2937','--dark-surface':'#374151',
-    '--brand':'#3B82F6','--brand-light':'#60A5FA',
-    '--near-black':'#111827','--dark-warm':'#374151','--olive':'#6B7280','--stone':'#9CA3AF',
-    '--border':'#E5E7EB','--border-soft':'#D1D5DB',
-    '--tag-08':'#DBEAFE','--tag-14':'#BFDBFE','--tag-18':'#93C5FD','--tag-30':'#60A5FA',
-    '--error':'#EF4444','--ring-warm':'rgba(59,130,246,0.14)',
-  }
+  parchment:{'--parchment':'#F5F4ED','--ivory':'#FAF9F5','--warm-sand':'#E8E6DC','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#1B365D','--brand-light':'#2D5A8A','--near-black':'#141413','--dark-warm':'#3D3D3A','--olive':'#504e49','--stone':'#6b6a64','--border':'#E8E6DC','--border-soft':'#E5E3D8','--tag-08':'#EEF2F7','--tag-14':'#E4ECF5','--tag-18':'#D0DCE9','--tag-30':'#D6E1EE','--error':'#B53333','--ring-warm':'rgba(27,54,93,0.12)'},
+  print:{'--parchment':'#FFFFFF','--ivory':'#FAFAF9','--warm-sand':'#EBE9E3','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#1B365D','--brand-light':'#2D5A8A','--near-black':'#141413','--dark-warm':'#3D3D3A','--olive':'#504e49','--stone':'#6b6a64','--border':'#E5E3D8','--border-soft':'#EDEBE6','--tag-08':'#EEF2F7','--tag-14':'#E4ECF5','--tag-18':'#D0DCE9','--tag-30':'#D6E1EE','--error':'#B53333','--ring-warm':'rgba(27,54,93,0.12)'},
+  deep:{'--parchment':'#141413','--ivory':'#30302E','--warm-sand':'#3D3D3A','--deep-dark':'#141413','--dark-surface':'#30302E','--brand':'#5B8CC7','--brand-light':'#7AA9DD','--near-black':'#E8E6DC','--dark-warm':'#CCC8BE','--olive':'#B5B0A5','--stone':'#969186','--border':'#3D3D3A','--border-soft':'#4A4945','--tag-08':'#2A3244','--tag-14':'#2F3B52','--tag-18':'#354560','--tag-30':'#3E5070','--error':'#CC5555','--ring-warm':'rgba(91,140,199,0.18)'},
+  cold:{'--parchment':'#F3F4F6','--ivory':'#FAFAFA','--warm-sand':'#E5E7EB','--deep-dark':'#1F2937','--dark-surface':'#374151','--brand':'#3B82F6','--brand-light':'#60A5FA','--near-black':'#111827','--dark-warm':'#374151','--olive':'#6B7280','--stone':'#9CA3AF','--border':'#E5E7EB','--border-soft':'#D1D5DB','--tag-08':'#DBEAFE','--tag-14':'#BFDBFE','--tag-18':'#93C5FD','--tag-30':'#60A5FA','--error':'#EF4444','--ring-warm':'rgba(59,130,246,0.14)'}
 };
 
 function applyCanvas(mode){
-  const cfg=CANVAS_CONFIG[mode];
-  Object.entries(cfg).forEach(([k,v])=>root.style.setProperty(k,v));
+  Object.entries(CANVAS_CONFIG[mode]).forEach(([k,v])=>root.style.setProperty(k,v));
   preview.style.background='var(--parchment)';
   document.querySelector('.panel').style.background='var(--ivory)';
-  document.querySelector('.page-nav').style.background='var(--parchment)';
+  document.querySelector('.top-bar').style.background='var(--parchment)';
   root.style.color='var(--near-black)';
 }
+document.querySelectorAll('input[name=canvas]').forEach(r=>r.onchange=function(){applyCanvas(this.value)});
 
-document.querySelectorAll('input[name=canvas]').forEach(r=>r.onchange=function(){
-  applyCanvas(this.value);
-});
+// ═══ AI 服务商切换 ═══
+const AI_CONFIG={
+  deepseek:{base:'https://api.deepseek.com/v1',models:['deepseek-chat','deepseek-reasoner'],labels:['deepseek-chat (V3)','deepseek-reasoner (R1)']},
+  openai:{base:'https://api.openai.com/v1',models:['gpt-4o-mini','gpt-4o','o3-mini'],labels:['gpt-4o-mini','gpt-4o','o3-mini']}
+};
+document.getElementById('provider').onchange=function(){
+  const cfg=AI_CONFIG[this.value];
+  const sel=document.getElementById('aiModel');
+  sel.innerHTML=cfg.models.map((m,i)=>`<option value="${m}">${cfg.labels[i]}</option>`).join('');
+};
 
 // ═══ 栏宽 ═══
-document.getElementById('colWidth').oninput=function(){
-  root.style.setProperty('--col-width',this.value+'px');
+document.getElementById('colWidth').oninput=function(){root.style.setProperty('--col-width',this.value+'px')};
+
+// ═══ 字号 ═══
+document.getElementById('fontSize').oninput=function(){
+  const v=parseFloat(this.value);
+  root.style.setProperty('--body-size',v+'pt');
+  root.style.setProperty('--h1-size',(v*2)+'pt');
+  root.style.setProperty('--h2-size',(v*1.5)+'pt');
+  root.style.setProperty('--h3-size',(v*1.25)+'pt');
+  root.style.setProperty('--lead-size',(v*1.1)+'pt');
 };
+
+// ═══ 行高 ═══
+document.getElementById('lineHeight').oninput=function(){
+  root.style.setProperty('--body-line',this.value);
+};
+
+// ═══ 字体 ═══
+document.querySelectorAll('input[name=font]').forEach(r=>r.onchange=function(){
+  const v=this.value;
+  if(v==='default'){
+    root.style.setProperty('--serif','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');
+    root.style.setProperty('--sans','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif');
+  }else if(v==='all-serif'){
+    root.style.setProperty('--serif','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');
+    root.style.setProperty('--sans','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');
+  }else{
+    root.style.setProperty('--serif','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif');
+    root.style.setProperty('--sans','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif');
+  }
+});
+
+// ═══ 对齐 ═══
+document.querySelectorAll('input[name=align]').forEach(r=>r.onchange=function(){
+  root.style.setProperty('--text-align',this.value);
+});
+
+// ═══ 阅读模式 ═══
+document.querySelectorAll('input[name=mode]').forEach(r=>r.onchange=function(){
+  const v=this.value;
+  preview.classList.toggle('scroll-mode',v==='scroll');
+  document.getElementById('prevBtn').style.display=v==='scroll'?'none':'';
+  document.getElementById('nextBtn').style.display=v==='scroll'?'none':'';
+  document.getElementById('pageInfo').style.display=v==='scroll'?'none':'';
+  document.getElementById('scrollBtn').style.display=v==='scroll'?'none':'';
+  document.getElementById('tocBtn').style.display=v==='page'?'inline-flex':'none';
+  if(v==='scroll'){document.querySelectorAll('.page').forEach(p=>p.classList.add('active'));document.getElementById('progressBar').style.width='100%'}
+  else{updateProgress()}
+});
 
 // ═══════════ DEFAULT ═══════════
 const DEFAULT_TEXT=`# 好内容，值得好版面
@@ -300,212 +388,142 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g
 
 function blockToHTML(b,author,date){
   switch(b.type){
-    case 'display':
-      let h=`<h1 class="display">${esc(b.text)}</h1>`;
-      if(author||date)h+=`<div class="byline">${[author,date].filter(Boolean).join(' · ')}</div>`;
-      return h;
-    case 'sec-title':return `<div class="sec-title">${esc(b.text)}</div>`;
-    case 'h1':return `<h2 class="h1">${esc(b.text)}</h2>`;
-    case 'h2':return `<h3 class="h2">${esc(b.text)}</h3>`;
-    case 'h3':return `<h3 class="h3">${esc(b.text)}</h3>`;
-    case 'quote':return `<blockquote class="quote">${esc(b.text)}</blockquote>`;
-    case 'body':return `<p class="body-text">${esc(b.text)}</p>`;
-    case 'caption':return `<span class="caption-text">${esc(b.text)}</span>`;
-    case 'divider':return '<hr class="divider">';
-    case 'tags':return `<div class="tag-row">${b.tags.map((t,i)=>`<span class="tag tag-${i===0?'light':i===1?'standard':'brush'}">${esc(t)}</span>`).join('')}</div>`;
-    case 'dash-list':return `<ul class="dash-list">${b.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`;
-    case 'code':return `<pre class="code-block">${esc(b.text)}</pre>`;
-    default:return '';
+    case'display':return (author||date)?`<h1 class="display">${esc(b.text)}</h1><div class="byline">${[author,date].filter(Boolean).join(' · ')}</div>`:`<h1 class="display">${esc(b.text)}</h1>`;
+    case'sec-title':return`<div class="sec-title">${esc(b.text)}</div>`;
+    case'h1':return`<h2 class="h1" data-heading="${esc(b.text)}">${esc(b.text)}</h2>`;
+    case'h2':return`<h3 class="h2" data-heading="${esc(b.text)}">${esc(b.text)}</h3>`;
+    case'h3':return`<h3 class="h3">${esc(b.text)}</h3>`;
+    case'quote':return`<blockquote class="quote">${esc(b.text)}</blockquote>`;
+    case'body':return`<p class="body-text">${esc(b.text)}</p>`;
+    case'lead':return`<p class="lead">${esc(b.text)}</p>`;
+    case'caption':return`<span class="caption-text">${esc(b.text)}</span>`;
+    case'divider':return'<hr class="divider">';
+    case'tags':return`<div class="tag-row">${b.tags.map((t,i)=>`<span class="tag tag-${i===0?'light':i===1?'standard':'brush'}">${esc(t)}</span>`).join('')}</div>`;
+    case'dash-list':return`<ul class="dash-list">${b.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`;
+    case'code':return`<pre class="code-block">${esc(b.text)}</pre>`;
+    default:return'';
   }
 }
 
-// ═══ 分页 ═══
+// ═══ 分页 + 目录 ═══
 function renderPages(){
-  if(window._aiMeta){
-    return renderWithMeta();
-  }
-  return renderFromText();
-}
-
-function renderFromText(){
-  const blocks=parseText(currentText);
-  window._blocks=blocks;
-  return doRender(blocks);
-}
-
-function renderWithMeta(){
-  const blocks=window._aiMeta.blocks;
-  window._blocks=blocks;
-  const meta=window._aiMeta;
-  return doRender(blocks,meta.author,meta.date);
-}
-
-function doRender(blocks,author,date){
+  const blocks=window._aiMeta?window._aiMeta.blocks:parseText(currentText);
+  const author=window._aiMeta?window._aiMeta.author:'';
+  const date=window._aiMeta?window._aiMeta.date:'';
   const perPage=6,pageCount=Math.max(1,Math.ceil(blocks.length/perPage));
-  pages=[];
+  pages=[];tocItems=[];
+
   for(let p=0;p<pageCount;p++){
     const start=p*perPage,end=Math.min(start+perPage,blocks.length);
-    const slice=blocks.slice(start,end);
-    const html=slice.map(b=>{
+    const html=blocks.slice(start,end).map(b=>{
       if(b.type==='display')return blockToHTML(b,author,date);
-      if(b.type==='lead')return `<p class="lead">${esc(b.text)}</p>`;
+      if(b.type==='lead')return`<p class="lead">${esc(b.text)}</p>`;
       return blockToHTML(b);
     }).join('\n');
     pages.push(html);
   }
   currentPage=0;
   preview.innerHTML=pages.map((html,i)=>`<div class="page${i===0?' active':''}" id="page-${i}">${html}</div>`).join('');
+
+  // Build TOC from headings
+  blocks.forEach((b,i)=>{
+    if(b.type==='h1')tocItems.push({level:'h1',text:b.text,page:Math.floor(i/perPage)});
+    if(b.type==='h2')tocItems.push({level:'h2',text:b.text,page:Math.floor(i/perPage)});
+  });
+  renderTOC();
   updatePageNav();
+  updateProgress();
+}
+
+function renderTOC(){
+  const list=document.getElementById('tocList');
+  if(!tocItems.length){list.innerHTML='<span style="font-size:9pt;color:var(--stone)">暂无章节</span>';return}
+  list.innerHTML=tocItems.map(t=>`<div class="toc-item ${t.level}" onclick="goToPage(${t.page});toggleTOC()">${esc(t.text)}</div>`).join('');
 }
 
 function goToPage(n){
   if(n<0||n>=pages.length)return;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+n).classList.add('active');
-  currentPage=n;preview.scrollTop=0;updatePageNav();
+  currentPage=n;preview.scrollTop=0;updatePageNav();updateProgress();
 }
 function updatePageNav(){
   document.getElementById('prevBtn').disabled=currentPage===0;
   document.getElementById('nextBtn').disabled=currentPage===pages.length-1;
   document.getElementById('pageInfo').textContent=`第 ${currentPage+1} / ${pages.length} 页`;
 }
+function updateProgress(){
+  const pct=pages.length?Math.round(((currentPage+1)/pages.length)*100):0;
+  document.getElementById('progressBar').style.width=pct+'%';
+}
 document.getElementById('prevBtn').onclick=()=>goToPage(currentPage-1);
 document.getElementById('nextBtn').onclick=()=>goToPage(currentPage+1);
 
 // ═══ 键盘翻页 ═══
 document.addEventListener('keydown',e=>{
+  if(document.querySelector('input:focus,select:focus'))return;
   if(e.key==='ArrowLeft')goToPage(currentPage-1);
   if(e.key==='ArrowRight')goToPage(currentPage+1);
 });
 
-// ═══════════ AI 解析 ═══════════
+// ═══ 目录 ═══
+function toggleTOC(){
+  const d=document.getElementById('tocDrawer'),o=document.getElementById('tocOverlay');
+  d.classList.toggle('open');o.classList.toggle('show');
+}
+
+// ═══════════ AI ═══════════
 async function runAI(){
   const key=document.getElementById('apiKey').value.trim();
-  if(!key)return setStatus('请先填写 API Key');
-  const base=document.getElementById('apiBase').value.trim()||'https://api.openai.com/v1';
-  const model=document.getElementById('apiModel').value.trim()||'gpt-4o-mini';
-  if(!currentText||currentText===DEFAULT_TEXT)return setStatus('请先导入你自己的文章');
+  if(!key)return setStatus('请填写 API Key');
+  const provider=document.getElementById('provider').value;
+  const cfg=AI_CONFIG[provider];
+  const model=document.getElementById('aiModel').value;
+  if(!currentText||currentText===DEFAULT_TEXT)return setStatus('请先导入文章');
+  const base=provider==='openai'?cfg.base:cfg.base;
 
-  setStatus('正在分析…');
-  document.getElementById('aiBtn').disabled=true;
-
+  setStatus('正在分析…');document.getElementById('aiBtn').disabled=true;
   try{
     const res=await fetch(base+'/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
       body:JSON.stringify({
-        model,
-        temperature:0.1,
+        model,temperature:0.1,
         messages:[{
           role:'system',
-          content:`你是一个文章结构分析器。分析用户输入的文章文本，提取结构信息。
-
-返回严格的 JSON 格式（不要任何额外文字）：
-
-{
-  "title": "文章主标题",
-  "author": "作者名（如果没有则为空字符串）",
-  "date": "日期（如果没有则为空字符串）",
-  "tags": ["标签1","标签2"],
-  "lead": "引导语/摘要（如果没有则为空字符串）",
-  "blocks": [
-    {"type":"h1","text":"一级标题"},
-    {"type":"body","text":"正文段落，保持原文内容"},
-    {"type":"h2","text":"二级标题"},
-    {"type":"body","text":"正文段落"},
-    {"type":"quote","text":"引用内容"},
-    {"type":"h3","text":"三级标题"},
-    {"type":"body","text":"正文段落"}
-  ]
-}
-
-规则：
-- body 块的 text 保持原文内容，不要改写
-- 根据内容语义判断标题层级，而不是机械按数字前缀
-- 如果原文有引言/摘要，放到 lead 字段
-- tags 提取 2-5 个关键词标签
-- 只返回 JSON，不要 markdown 代码块包裹`
-        },{
-          role:'user',
-          content:currentText
-        }]
+          content:'你是文章结构分析器。分析输入文本，返回严格 JSON（不含 markdown 代码块）：\n\n{"title":"标题","author":"作者","date":"日期","tags":["标签"],"lead":"摘要","blocks":[{"type":"h1|h2|h3|body|quote|dash-list","text":"内容"}]}\n\n规则：保持原文不改写；根据语义判标题层级；tags 2-5 个关键词；只返回 JSON。'
+        },{role:'user',content:currentText}]
       })
     });
-
-    if(!res.ok)throw new Error(`${res.status} ${res.statusText}`);
-
+    if(!res.ok){const e=await res.text();throw new Error(res.status+' '+res.statusText+': '+e.slice(0,200))}
     const data=await res.json();
     let content=data.choices[0].message.content;
-
-    // Strip markdown code fences if present
     content=content.replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
-
-    const parsed=JSON.parse(content);
-
-    // Convert to blocks format
-    const meta=parsed;
-    const newBlocks=[];
-    let hasMeta=false;
-    if(meta.title){newBlocks.push({type:'display',text:meta.title});hasMeta=true;}
-    if(meta.author||meta.date){
-      // We'll pass these to the display renderer
-    }
-    if(meta.lead){newBlocks.push({type:'lead',text:meta.lead})}
-    if(meta.tags&&meta.tags.length){
-      newBlocks.push({type:'tags',tags:meta.tags.slice(0,5)});
-    }
-    if(meta.blocks&&meta.blocks.length){
-      newBlocks.push(...meta.blocks);
-    }
-
-    // Save AI metadata and rerender
-    window._aiMeta={author:meta.author,date:meta.date,blocks:newBlocks};
-    currentText=blocksToText(newBlocks);
+    const meta=JSON.parse(content);
+    const blocks=[];
+    if(meta.title)blocks.push({type:'display',text:meta.title});
+    if(meta.lead)blocks.push({type:'lead',text:meta.lead});
+    if(meta.tags&&meta.tags.length)blocks.push({type:'tags',tags:meta.tags.slice(0,5)});
+    if(meta.blocks)blocks.push(...meta.blocks);
+    window._aiMeta={author:meta.author,date:meta.date,blocks};
+    currentText=blocksToText(blocks);
     renderPages();
-
-    setStatus(`✅ 识别完成：${newBlocks.length} 个内容块，${Math.max(1,Math.ceil(newBlocks.length/6))} 页`);
-  }catch(e){
-    setStatus(`❌ ${e.message}`);
-  }finally{
-    document.getElementById('aiBtn').disabled=false;
-  }
+    // reset to page mode
+    document.getElementById('m-page').click();
+    setStatus(`✅ 已识别：${blocks.length} 块 · ${tocItems.length} 章节 · ${pages.length} 页`);
+  }catch(e){setStatus('❌ '+e.message)}
+  finally{document.getElementById('aiBtn').disabled=false}
 }
 
 function blocksToText(blocks){
   return blocks.map(b=>{
     switch(b.type){
-      case'display':return'# '+b.text;
-      case'h1':return'## '+b.text;
-      case'h2':return'### '+b.text;
-      case'h3':return'#### '+b.text;
-      case'quote':return'> '+b.text;
-      case'lead':return b.text;
-      case'body':return b.text;
-      case'dash-list':return b.items.map(i=>'- '+i).join('\n');
-      case'code':return '```\n'+b.text+'\n```';
-      case'tags':return '* '+b.tags.join(', ');
-      default:return b.text||'';
+      case'display':return'# '+b.text;case'h1':return'## '+b.text;case'h2':return'### '+b.text;
+      case'quote':return'> '+b.text;case'lead':return b.text;case'body':return b.text;
+      case'dash-list':return b.items.map(i=>'- '+i).join('\n');case'code':return'```\n'+b.text+'\n```';
+      case'tags':return'* '+b.tags.join(', ');default:return b.text||'';
     }
   }).join('\n\n');
-}
-
-function renderPagesWithMeta(meta){
-  const blocks=meta.pages;
-  const perPage=6,pageCount=Math.max(1,Math.ceil(blocks.length/perPage));
-  pages=[];
-  for(let p=0;p<pageCount;p++){
-    const start=p*perPage,end=Math.min(start+perPage,blocks.length);
-    const slice=blocks.slice(start,end);
-    const html=slice.map((b,i)=>{
-      if(b.type==='display')return blockToHTML(b,meta.author,meta.date);
-      if(b.type==='lead')return `<p class="lead">${esc(b.text)}</p>`;
-      return blockToHTML(b);
-    }).join('\n');
-    pages.push(html);
-  }
-  currentPage=0;
-  preview.innerHTML=pages.map((html,i)=>`<div class="page${i===0?' active':''}" id="page-${i}">${html}</div>`).join('');
-  updatePageNav();
 }
 
 function setStatus(m){document.getElementById('aiStatus').textContent=m}
@@ -513,27 +531,22 @@ function setStatus(m){document.getElementById('aiStatus').textContent=m}
 // ═══ 文件导入 ═══
 function handleFile(file){
   if(!file||!file.name.endsWith('.txt'))return;
-  const reader=new FileReader();
-  reader.onload=function(){
-    currentText=reader.result;
-    window._aiMeta=null;
+  const r=new FileReader();
+  r.onload=function(){
+    currentText=r.result;window._aiMeta=null;
     document.getElementById('fileName').textContent='📎 '+file.name;
-    document.getElementById('aiStatus').textContent='已导入，可点击「分析文章结构」';
+    document.getElementById('aiStatus').textContent='已导入，可点「分析」识别结构';
     renderPages();
   };
-  reader.readAsText(file,'UTF-8');
+  r.readAsText(file,'UTF-8');
 }
-
-// upload zone drag support
 (function(){
-  const zone=document.querySelector('.upload-zone');
-  if(!zone)return;
-  zone.addEventListener('dragover',e=>{e.preventDefault();zone.style.borderColor='var(--brand)'});
-  zone.addEventListener('dragleave',()=>zone.style.borderColor='');
-  zone.addEventListener('drop',e=>{e.preventDefault();zone.style.borderColor='';handleFile(e.dataTransfer.files[0])});
+  const z=document.querySelector('.upload-zone');
+  z.addEventListener('dragover',e=>{e.preventDefault();z.style.borderColor='var(--brand)'});
+  z.addEventListener('dragleave',()=>z.style.borderColor='');
+  z.addEventListener('drop',e=>{e.preventDefault();z.style.borderColor='';handleFile(e.dataTransfer.files[0])});
 })();
 
-// ═══ init ═══
 renderPages();
 </script>
 </body>
