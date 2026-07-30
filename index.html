@@ -132,6 +132,15 @@ input:focus{border-color:var(--brand)}
   <span class="group-label">📖 阅读设置</span>
 
   <div class="group">
+    <span class="group-label">📏 栏宽</span>
+    <div class="range-wrap">
+      <span class="label-text">窄</span>
+      <input type="range" min="480" max="820" value="680" step="20" id="colWidth">
+      <span class="label-text">宽</span>
+    </div>
+  </div>
+
+  <div class="group">
     <span class="group-label">字号</span>
     <div class="range-wrap">
       <span class="label-text">小</span>
@@ -263,7 +272,7 @@ document.getElementById('provider').onchange=function(){
 };
 
 // ═══ 栏宽 ═══
-document.getElementById('colWidth').oninput=function(){root.style.setProperty('--col-width',this.value+'px')};
+document.getElementById('colWidth')?.oninput=function(){root.style.setProperty('--col-width',this.value+'px')};
 
 // ═══ 字号 ═══
 document.getElementById('fontSize').oninput=function(){
