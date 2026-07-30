@@ -539,14 +539,23 @@ function setStatus(m){document.getElementById('aiStatus').textContent=m}
 
 // ═══ 文件导入 ═══
 function handleFile(file){
-  if(!file||!file.name.endsWith('.txt'))return;
+  if(!file||!file.name.endsWith('.txt')){
+    setStatus('请选择 .txt 文件');
+    return;
+  }
   const r=new FileReader();
   r.onload=function(){
-    currentText=r.result;window._aiMeta=null;
-    document.getElementById('fileName').textContent='📎 '+file.name;
-    document.getElementById('aiStatus').textContent='已导入，可点「分析」识别结构';
-    renderPages();
+    try{
+      currentText=r.result;window._aiMeta=null;
+      document.getElementById('fileName').textContent='📎 '+file.name;
+      setStatus('已导入，可点「分析」识别结构');
+      renderPages();
+    }catch(e){
+      setStatus('导入渲染失败: '+e.message);
+      console.error(e);
+    }
   };
+  r.onerror=function(){setStatus('文件读取失败')};
   r.readAsText(file,'UTF-8');
 }
 (function(){
