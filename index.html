@@ -272,7 +272,7 @@ document.getElementById('provider').onchange=function(){
 };
 
 // ═══ 栏宽 ═══
-document.getElementById('colWidth')?.oninput=function(){root.style.setProperty('--col-width',this.value+'px')};
+const colEl=document.getElementById('colWidth');if(colEl)colEl.oninput=function(){root.style.setProperty('--col-width',this.value+'px')};
 
 // ═══ 字号 ═══
 document.getElementById('fontSize').oninput=function(){
