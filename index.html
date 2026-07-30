@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kami 紙 · 设计预览</title>
+<style>
+/* ═══════════ Kami 设计系统 ═══════════ */
+:root{
+  --parchment:#F5F4ED;--ivory:#FAF9F5;--warm-sand:#E8E6DC;
+  --deep-dark:#141413;--dark-surface:#30302E;
+  --brand:#1B365D;--brand-light:#2D5A8A;
+  --near-black:#141413;--dark-warm:#3D3D3A;--olive:#504e49;--stone:#6b6a64;
+  --border:#E8E6DC;--border-soft:#E5E3D8;
+  --tag-08:#EEF2F7;--tag-14:#E4ECF5;--tag-18:#D0DCE9;--tag-30:#D6E1EE;
+  --error:#B53333;
+  --ring-warm:rgba(27,54,93,0.12);
+  --serif:"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif;
+  --sans:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","Fira Code","SF Mono",monospace;
+  --body-size:10pt;--body-line:1.55;--col-width:680px;
+  --h1-size:20pt;--h1-line:1.20;
+  --h2-size:15pt;--h2-line:1.25;
+  --h3-size:12.5pt;--h3-line:1.30;
+  --lead-size:11pt;
+  --caption-size:9pt;--caption-line:1.45;
+  --label-size:7.5pt;--label-line:1.35;
+  --spacing-xs:3px;--spacing-sm:5px;--spacing-md:10px;--spacing-lg:20px;
+  --spacing-xl:32px;--spacing-2xl:48px;
+  --radius-sm:4px;--radius-md:8px;--radius-lg:16px;--radius-xl:24px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--parchment);color:var(--near-black);font-family:var(--sans);font-size:var(--body-size);line-height:var(--body-line);font-weight:400}
+body{display:flex;overflow:hidden}
+
+/* ═══════════ 侧边面板 ═══════════ */
+.panel{width:320px;flex-shrink:0;background:var(--ivory);border-right:1px solid var(--border);padding:var(--spacing-xl) var(--spacing-lg);overflow-y:auto;display:flex;flex-direction:column;gap:var(--spacing-xl)}
+.panel-header h2{font-family:var(--serif);font-size:var(--h2-size);font-weight:500;line-height:var(--h2-line);color:var(--brand);margin-bottom:2px}
+.panel-header p{font-size:8pt;font-weight:600;color:var(--stone);text-transform:uppercase;letter-spacing:1px}
+.group{display:flex;flex-direction:column;gap:var(--spacing-sm)}
+.group-label{font-size:var(--label-size);font-weight:600;color:var(--olive);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px}
+.radio-row{display:flex;gap:var(--spacing-sm);flex-wrap:wrap}
+.radio-btn{position:relative}
+.radio-btn input{position:absolute;opacity:0;pointer-events:none}
+.radio-btn label{display:block;padding:6px 12px;border-radius:var(--radius-sm);font-size:9pt;font-weight:500;cursor:pointer;background:var(--warm-sand);color:var(--olive);transition:all 0.15s;border:1px solid transparent}
+.radio-btn input:checked+label{background:var(--brand);color:var(--ivory)}
+.range-wrap{display:flex;align-items:center;gap:var(--spacing-sm)}
+.range-wrap input[type=range]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:var(--warm-sand);border-radius:2px;outline:none}
+.range-wrap input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--brand);cursor:pointer;box-shadow:0 0 0 2px var(--ivory),0 0 0 3px var(--ring-warm)}
+.range-val{font-size:8pt;font-weight:600;color:var(--stone);text-align:right}
+.panel-btn{display:block;width:100%;padding:8px 16px;border-radius:var(--radius-md);font-size:9pt;font-weight:500;cursor:pointer;text-align:center;border:none;font-family:var(--sans);transition:all 0.15s}
+.panel-btn.primary{background:var(--brand);color:var(--ivory)}
+.panel-btn.primary:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
+.panel-btn.secondary{background:var(--warm-sand);color:var(--olive)}
+.panel-btn.secondary:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
+
+/* file upload */
+.upload-zone{border:1pt dashed var(--border-soft);border-radius:var(--radius-md);padding:var(--spacing-md);text-align:center;cursor:pointer;transition:all 0.15s;background:var(--parchment)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--brand);background:var(--ivory)}
+.upload-zone p{font-size:9pt;color:var(--stone)}
+.upload-zone .filename{font-size:8pt;color:var(--olive);margin-top:4px;word-break:break-all}
+.file-input{display:none}
+.remove-btn{font-size:8pt;color:var(--error);cursor:pointer;margin-top:4px}
+
+/* ═══════════ 预览 + 分页 ═══════════ */
+.preview-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.page-nav{display:flex;align-items:center;justify-content:center;gap:var(--spacing-md);padding:var(--spacing-md) var(--spacing-xl);background:var(--parchment);border-bottom:1px solid var(--border-soft);flex-shrink:0}
+.page-nav span{font-size:9pt;font-weight:500;color:var(--stone);min-width:60px;text-align:center}
+.page-nav button{padding:4px 12px;border-radius:var(--radius-sm);font-size:9pt;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);background:var(--warm-sand);color:var(--olive);transition:all 0.15s}
+.page-nav button:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
+.page-nav button:disabled{opacity:0.3;cursor:default}
+
+.preview{flex:1;overflow-y:auto;display:flex;justify-content:center;padding:var(--spacing-2xl) var(--spacing-xl)}
+.page{width:var(--col-width);max-width:100%;display:none;flex-direction:column;gap:var(--spacing-xl)}
+.page.active{display:flex}
+
+/* ── Kami 排版层级 ── */
+.display{font-family:var(--serif);font-size:42pt;font-weight:500;line-height:1.10;color:var(--brand);letter-spacing:-0.5px}
+.h1{font-family:var(--serif);font-size:var(--h1-size);font-weight:500;line-height:var(--h1-line);color:var(--near-black)}
+.h2{font-family:var(--serif);font-size:var(--h2-size);font-weight:500;line-height:var(--h2-line);color:var(--near-black)}
+.h3{font-family:var(--serif);font-size:var(--h3-size);font-weight:500;line-height:var(--h3-line);color:var(--olive)}
+.lead{font-size:var(--lead-size);font-weight:400;line-height:var(--body-line);color:var(--dark-warm)}
+.body-text{font-size:var(--body-size);font-weight:400;line-height:var(--body-line);color:var(--near-black)}
+.caption-text{font-size:var(--caption-size);line-height:var(--caption-line);color:var(--stone)}
+
+/* ── Kami 组件 ── */
+.quote{border-left:2pt solid var(--brand);padding:var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-lg);color:var(--olive);font-size:var(--body-size);line-height:var(--body-line)}
+.quote cite{display:block;margin-top:var(--spacing-sm);font-size:var(--caption-size);color:var(--stone);font-style:normal}
+.metric-row{display:flex;gap:var(--spacing-xl);flex-wrap:wrap}
+.metric{display:flex;flex-direction:column;gap:2px}
+.metric .m-num{font-family:var(--serif);font-size:28pt;font-weight:500;line-height:1;color:var(--brand);font-variant-numeric:tabular-nums}
+.metric .m-label{font-size:var(--label-size);font-weight:600;color:var(--olive);text-transform:uppercase;letter-spacing:0.5px}
+.dash-list{list-style:none;display:flex;flex-direction:column;gap:var(--spacing-sm)}
+.dash-list li{padding-left:var(--spacing-lg);position:relative;font-size:var(--body-size);line-height:var(--body-line);color:var(--near-black)}
+.dash-list li::before{content:'—';position:absolute;left:0;color:var(--olive)}
+.code-block{background:var(--ivory);border-radius:var(--radius-sm);padding:var(--spacing-lg);font-family:var(--mono);font-size:9pt;line-height:1.55;color:var(--dark-warm);overflow-x:auto;white-space:pre}
+.tag-row{display:flex;gap:var(--spacing-sm);flex-wrap:wrap}
+.tag{padding:3px 10px;border-radius:var(--radius-sm);font-size:8pt;font-weight:600;font-family:var(--sans)}
+.tag-light{background:var(--tag-08);color:var(--brand)}
+.tag-standard{background:var(--tag-18);color:var(--brand)}
+.tag-brush{background:linear-gradient(135deg,var(--tag-14),var(--tag-30));color:var(--brand)}
+.feat-card{background:var(--ivory);border-radius:var(--radius-lg);padding:var(--spacing-xl);box-shadow:0 4pt 24pt rgba(0,0,0,0.05)}
+.sec-title{font-family:var(--serif);font-size:15pt;font-weight:500;color:var(--near-black)}
+.btn-row{display:flex;gap:var(--spacing-sm);flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;padding:8px 16px;border-radius:var(--radius-md);font-size:9.5pt;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);transition:all 0.15s}
+.btn.primary{background:var(--brand);color:var(--ivory)}
+.btn.primary:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
+.btn.secondary{background:var(--warm-sand);color:var(--olive)}
+.btn.secondary:hover{box-shadow:0 0 0 1pt var(--ring-warm)}
+.btn.ghost{background:transparent;color:var(--stone)}
+.btn.ghost:hover{background:var(--warm-sand)}
+.divider{border:none;border-top:0.5pt dashed var(--border-soft);margin:0}
+.info-strip{display:flex;gap:var(--spacing-md);align-items:center;padding:var(--spacing-sm) 0}
+.info-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--brand)}
+.label-text{font-size:var(--label-size);font-weight:600;line-height:var(--label-line);color:var(--olive);text-transform:uppercase;letter-spacing:0.5px}
+</style>
+</head>
+<body>
+
+<!-- ═══ 面板 ═══ -->
+<aside class="panel">
+  <div class="panel-header">
+    <h2>Kami 紙</h2>
+    <p>设计参数调节</p>
+  </div>
+
+  <!-- 导入 -->
+  <div class="group">
+    <span class="group-label">📄 导入文章</span>
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <p>点击或拖拽 .txt 文件</p>
+      <p class="filename" id="fileName"></p>
+      <input type="file" class="file-input" id="fileInput" accept=".txt" onchange="handleFile(this.files[0])">
+    </div>
+    <span class="remove-btn" id="removeFile" style="display:none" onclick="resetArticle()">✕ 恢复默认</span>
+  </div>
+
+  <!-- 画布 -->
+  <div class="group">
+    <span class="group-label">🎨 画布</span>
+    <div class="radio-row">
+      <div class="radio-btn"><input type="radio" name="canvas" value="parchment" checked id="c-parch"><label for="c-parch">羊皮纸</label></div>
+      <div class="radio-btn"><input type="radio" name="canvas" value="ivory" id="c-ivory"><label for="c-ivory">打印白</label></div>
+      <div class="radio-btn"><input type="radio" name="canvas" value="deep" id="c-deep"><label for="c-deep">深色</label></div>
+      <div class="radio-btn"><input type="radio" name="canvas" value="cold" id="c-cold"><label for="c-cold">冷灰⚠️</label></div>
+    </div>
+  </div>
+
+  <!-- 密度 -->
+  <div class="group">
+    <span class="group-label">📐 排版密度</span>
+    <div class="radio-row">
+      <div class="radio-btn"><input type="radio" name="density" value="lead" id="d-lead"><label for="d-lead">宽松</label></div>
+      <div class="radio-btn"><input type="radio" name="density" value="body" checked id="d-body"><label for="d-body">标准</label></div>
+      <div class="radio-btn"><input type="radio" name="density" value="dense" id="d-dense"><label for="d-dense">紧凑</label></div>
+    </div>
+  </div>
+
+  <!-- 栏宽 -->
+  <div class="group">
+    <span class="group-label">📏 栏宽</span>
+    <div class="range-wrap">
+      <span class="label-text">窄</span>
+      <input type="range" min="480" max="820" value="680" step="20" id="colWidth">
+      <span class="label-text">宽</span>
+    </div>
+    <span class="range-val" id="colWidthVal">680px</span>
+  </div>
+
+  <!-- 字体 -->
+  <div class="group">
+    <span class="group-label">🔤 字体组合</span>
+    <div class="radio-row">
+      <div class="radio-btn"><input type="radio" name="font" value="default" checked id="f-def"><label for="f-def">中文默认</label></div>
+      <div class="radio-btn"><input type="radio" name="font" value="all-serif" id="f-serif"><label for="f-serif">全衬线</label></div>
+      <div class="radio-btn"><input type="radio" name="font" value="all-sans" id="f-sans"><label for="f-sans">全无衬线</label></div>
+    </div>
+  </div>
+
+  <!-- 强调色 -->
+  <div class="group">
+    <span class="group-label">🔵 强调色面积</span>
+    <div class="radio-row">
+      <div class="radio-btn"><input type="radio" name="accent" value="restrained" id="a-rest"><label for="a-rest">克制≤3%</label></div>
+      <div class="radio-btn"><input type="radio" name="accent" value="standard" checked id="a-std"><label for="a-std">标准 5%</label></div>
+      <div class="radio-btn"><input type="radio" name="accent" value="overload" id="a-over"><label for="a-over">过载⚠️</label></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <button class="panel-btn secondary" onclick="resetAll()">恢复 Kami 默认</button>
+</aside>
+
+<!-- ═══ 预览 + 分页 ═══ -->
+<div class="preview-wrap">
+  <nav class="page-nav" id="pageNav">
+    <button id="prevBtn" disabled>← 上一页</button>
+    <span id="pageInfo">第 1 / 1 页</span>
+    <button id="nextBtn" disabled>下一页 →</button>
+  </nav>
+  <div class="preview" id="preview">
+    <div class="page active" id="page-0"></div>
+  </div>
+</div>
+
+<script>
+const root=document.documentElement,preview=document.getElementById('preview');
+
+// ═══════════ DEFAULT ARTICLE ═══════════
+const DEFAULT_TEXT=`# 好内容，值得好版面
+
+暖米纸底，油墨蓝点缀，serif 承担层级，硬阴影与花哨配色都退后。这套系统面向印刷文档，负责把内容收束成稳定、清晰、易读的版面。
+
+## 设计原则
+
+## 一种强调色，一套排版规则
+
+Kami 的核心约束很简单：页面背景用羊皮纸 #f5f4ed，不用纯白；强调色只有油墨蓝一种，不引入第二种彩色；所有灰色都是暖调，禁止冷蓝灰；英文 serif 通吃标题和正文，中文标题用 serif、正文用 sans。
+
+Serif 正文始终保持 400 字重，标题 500，不用合成 bold。需要更强存在感时，用字号或品牌色左侧竖线，不靠合成粗体。
+
+> 一千个 no 换一个 yes，宁可清淡，不可浓艳。
+
+## 暖调克制
+
+唯一强调色、纯暖调中性灰、零冷色。油墨蓝全文档不超过 5% 面积，超过就从克制变成堆砌。所有灰色都有暖黄底色，R ≈ G > B 是基本规律。
+
+* 极淡 0.08, 标准 0.18, 笔刷渐变
+
+### Tag Tints · 实色对照
+
+Tag 背景必须使用实色 hex，禁止 rgba()——这是为了避免 WeasyPrint 在 PDF 导出时出现双层矩形渲染问题。
+
+---
+
+- 暖米纸底，不用纯白
+- 油墨蓝点缀，不引第二色
+- Serif 承担权威
+- Ring shadow 取代硬投影
+
+## 节奏与形
+
+基础单位 4pt，密度越高 margin 越小，场合越正式 margin 越大。圆角从 4pt 到 32pt 共七级，阴影只用 ring shadow、whisper shadow 与明暗交替。
+
+\`\`\`
+// 暖米纸 · 一种克制的温度
+canvas   = parchment; accent = ink_blue
+palette  = warm_neutrals − cool_grays
+document = serif × hierarchy + generous_space
+beauty   = constraints × intention ÷ noise
+\`\`\`
+
+▲ Kami 设计哲学，用等宽字体呈现，ivory 底色 + 4pt 圆角，无边框。
+
+## 样本输出
+
+把文档需求交给 Claude。无论是一页纸、长文、正式信件、作品集、简历还是幻灯片，Kami 都用少量清晰规则，把提示词变成可交付的排版。同一份 brief 也能交给绘图模型。
+
+输出为 HTML，可导出为 PDF、PNG 或可编辑的 PPTX 幻灯片。八种文档模板，十八种内联 SVG 图表，英文、中文、日文、韩文各自调优。`;
+
+let currentText=DEFAULT_TEXT;
+let pages=[];
+let currentPage=0;
+
+// ═══════════ PARSER ═══════════
+function parseText(text){
+  const lines=text.split('\n');
+  const blocks=[];
+  let i=0;
+
+  while(i<lines.length){
+    let line=lines[i].trim();
+
+    // blank
+    if(!line){i++;continue}
+
+    // display title: "# xxx"
+    if(line.startsWith('# ')&&!line.startsWith('## ')){
+      blocks.push({type:'display',text:line.slice(2)});
+      i++;continue
+    }
+    // ## heading
+    if(line.startsWith('## ')&&!line.startsWith('### ')){
+      blocks.push({type:'h1',text:line.slice(3)});
+      i++;continue
+    }
+    // ### heading
+    if(line.startsWith('### ')){
+      blocks.push({type:'h2',text:line.slice(4)});
+      i++;continue
+    }
+    // quote
+    if(line.startsWith('> ')){
+      blocks.push({type:'quote',text:line.slice(2)});
+      i++;continue
+    }
+    // tags: * a, b, c
+    if(line.startsWith('* ')&&line.includes(',')){
+      const tags=line.slice(2).split(',').map(t=>t.trim()).filter(Boolean);
+      if(tags.length>=2){blocks.push({type:'tags',tags});i++;continue}
+    }
+    // dash list: consecutive "- x"
+    if(line.startsWith('- ')){
+      const items=[];
+      while(i<lines.length&&lines[i].trim().startsWith('- ')){
+        items.push(lines[i].trim().slice(2));i++;
+      }
+      blocks.push({type:'dash-list',items});
+      continue
+    }
+    // code block
+    if(line.startsWith('```')){
+      const codeLines=[];i++;
+      while(i<lines.length&&!lines[i].trim().startsWith('```')){
+        codeLines.push(lines[i]);i++;
+      }
+      blocks.push({type:'code',text:codeLines.join('\n')});
+      i++;continue
+    }
+    // divider
+    if(line==='---'){
+      blocks.push({type:'divider'});i++;continue
+    }
+    // caption
+    if(line.startsWith('▲ ')){
+      blocks.push({type:'caption',text:line.slice(1).trim()});
+      i++;continue
+    }
+    // section title
+    if(line.startsWith('## ')){
+      blocks.push({type:'sec-title',text:line.slice(3)});
+      i++;continue
+    }
+
+    // body paragraph (collect until blank or special line)
+    const paraLines=[];
+    while(i<lines.length&&lines[i].trim()&&!lines[i].trim().match(/^(#|>|```|\* |- |---|▲ )/)){
+      paraLines.push(lines[i].trim());i++;
+    }
+    if(paraLines.length){
+      blocks.push({type:'body',text:paraLines.join('\n')});
+    }
+  }
+  return blocks;
+}
+
+// ═══════════ RENDER HTML ═══════════
+function blockToHTML(b){
+  switch(b.type){
+    case 'display':return `<h1 class="display">${esc(b.text)}</h1>`;
+    case 'sec-title':return `<div class="sec-title">${esc(b.text)}</div>`;
+    case 'h1':return `<h2 class="h1">${esc(b.text)}</h2>`;
+    case 'h2':return `<h3 class="h2">${esc(b.text)}</h3>`;
+    case 'h3':return `<h3 class="h3">${esc(b.text)}</h3>`;
+    case 'quote':return `<blockquote class="quote">${esc(b.text)}</blockquote>`;
+    case 'body':return `<p class="body-text">${esc(b.text)}</p>`;
+    case 'caption':return `<span class="caption-text">${esc(b.text)}</span>`;
+    case 'divider':return '<hr class="divider">';
+    case 'tags':return `<div class="tag-row">${b.tags.map((t,i)=>`<span class="tag tag-${i===0?'light':i===1?'standard':'brush'}">${esc(t)}</span>`).join('')}</div>`;
+    case 'dash-list':return `<ul class="dash-list">${b.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`;
+    case 'code':return `<pre class="code-block">${esc(b.text)}</pre>`;
+    default:return '';
+  }
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+// ═══════════ PAGINATION ═══════════
+function splitIntoPages(html){
+  const blocks=parseText(currentText);
+  const total=blocks.length;
+  if(total<=6){return [html]} // short: single page
+
+  // split evenly into ~6 blocks per page
+  const perPage=6;
+  const pageCount=Math.ceil(total/perPage);
+  const result=[];
+  for(let p=0;p<pageCount;p++){
+    const start=p*perPage,end=Math.min(start+perPage,total);
+    result.push(blocks.slice(start,end).map(blockToHTML).join('\n'));
+  }
+  return result;
+}
+
+function renderPages(){
+  const pageHTMLs=splitIntoPages();
+  pages=pageHTMLs;
+  currentPage=0;
+  preview.innerHTML=pageHTMLs.map((html,i)=>`<div class="page${i===0?' active':''}" id="page-${i}">${html}</div>`).join('');
+  updatePageNav();
+}
+
+function goToPage(n){
+  if(n<0||n>=pages.length)return;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+n).classList.add('active');
+  currentPage=n;
+  preview.scrollTop=0;
+  updatePageNav();
+}
+
+function updatePageNav(){
+  document.getElementById('prevBtn').disabled=currentPage===0;
+  document.getElementById('nextBtn').disabled=currentPage===pages.length-1;
+  document.getElementById('pageInfo').textContent=`第 ${currentPage+1} / ${pages.length} 页`;
+}
+
+document.getElementById('prevBtn').onclick=()=>goToPage(currentPage-1);
+document.getElementById('nextBtn').onclick=()=>goToPage(currentPage+1);
+
+// ═══════════ FILE IMPORT ═══════════
+const uploadZone=document.getElementById('uploadZone');
+uploadZone.addEventListener('dragover',e=>{e.preventDefault();uploadZone.classList.add('drag')});
+uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('drag'));
+uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('drag');handleFile(e.dataTransfer.files[0])});
+
+function handleFile(file){
+  if(!file||!file.name.endsWith('.txt'))return;
+  const reader=new FileReader();
+  reader.onload=function(){
+    currentText=reader.result;
+    document.getElementById('fileName').textContent='📎 '+file.name;
+    document.getElementById('removeFile').style.display='block';
+    renderPages();
+  };
+  reader.readAsText(file,'UTF-8');
+}
+
+function resetArticle(){
+  currentText=DEFAULT_TEXT;
+  document.getElementById('fileName').textContent='';
+  document.getElementById('removeFile').style.display='none';
+  document.getElementById('fileInput').value='';
+  renderPages();
+}
+
+// ═══════════ CONTROLS ═══════════
+document.querySelectorAll('input[name=canvas]').forEach(r=>r.onchange=function(){
+  const v=this.value;
+  if(v==='parchment'){root.style.setProperty('--parchment','#F5F4ED');root.style.setProperty('--ivory','#FAF9F5');root.style.setProperty('--warm-sand','#E8E6DC');root.style.setProperty('--deep-dark','#141413');root.style.setProperty('--dark-surface','#30302E');preview.style.background='var(--parchment)';document.querySelector('.panel').style.background='var(--ivory)';document.querySelector('.page-nav').style.background='var(--parchment)';root.style.color='var(--near-black)'}
+  else if(v==='ivory'){root.style.setProperty('--parchment','#ffffff');root.style.setProperty('--ivory','#FAFAF9');root.style.setProperty('--warm-sand','#EBE9E3');preview.style.background='#ffffff';document.querySelector('.panel').style.background='#FAFAF9';document.querySelector('.page-nav').style.background='#ffffff'}
+  else if(v==='deep'){root.style.setProperty('--parchment','#141413');root.style.setProperty('--ivory','#30302E');root.style.setProperty('--warm-sand','#3D3D3A');root.style.setProperty('--near-black','#E8E6DC');root.style.setProperty('--dark-warm','#CCC8BE');root.style.setProperty('--olive','#B5B0A5');root.style.setProperty('--stone','#969186');root.style.setProperty('--border','#3D3D3A');root.style.setProperty('--border-soft','#4A4945');root.style.setProperty('--brand','#2D5A8A');root.style.setProperty('--ring-warm','rgba(45,90,138,0.18)');preview.style.background='#141413';document.querySelector('.panel').style.background='#30302E';document.querySelector('.page-nav').style.background='#141413';root.style.color='#E8E6DC'}
+  else if(v==='cold'){root.style.setProperty('--parchment','#f3f4f6');root.style.setProperty('--ivory','#fafafa');root.style.setProperty('--warm-sand','#e5e7eb');preview.style.background='#f3f4f6';document.querySelector('.panel').style.background='#fafafa';document.querySelector('.page-nav').style.background='#f3f4f6'}
+  renderPages();
+});
+
+document.querySelectorAll('input[name=density]').forEach(r=>r.onchange=function(){
+  const v=this.value;
+  if(v==='lead'){root.style.setProperty('--body-size','11pt');root.style.setProperty('--body-line','1.55');root.style.setProperty('--h1-size','22pt');root.style.setProperty('--h2-size','16pt');root.style.setProperty('--h3-size','13pt')}
+  else if(v==='body'){root.style.setProperty('--body-size','10pt');root.style.setProperty('--body-line','1.55');root.style.setProperty('--h1-size','20pt');root.style.setProperty('--h2-size','15pt');root.style.setProperty('--h3-size','12.5pt')}
+  else if(v==='dense'){root.style.setProperty('--body-size','9pt');root.style.setProperty('--body-line','1.40');root.style.setProperty('--h1-size','18pt');root.style.setProperty('--h2-size','14pt');root.style.setProperty('--h3-size','12pt')}
+});
+
+document.getElementById('colWidth').oninput=function(){
+  root.style.setProperty('--col-width',this.value+'px');
+  document.getElementById('colWidthVal').textContent=this.value+'px';
+};
+
+document.querySelectorAll('input[name=font]').forEach(r=>r.onchange=function(){
+  const v=this.value;
+  if(v==='default'){root.style.setProperty('--serif','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');root.style.setProperty('--sans','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif')}
+  else if(v==='all-serif'){root.style.setProperty('--serif','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif');root.style.setProperty('--sans','"TsangerJinKai02","Charter","Georgia","Noto Serif SC","Songti SC",serif')}
+  else if(v==='all-sans'){root.style.setProperty('--serif','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif');root.style.setProperty('--sans','system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif')}
+});
+
+document.querySelectorAll('input[name=accent]').forEach(r=>r.onchange=function(){
+  const v=this.value;
+  if(v==='restrained'){root.style.setProperty('--brand','#1B365D');root.style.setProperty('--brand-light','#2D5A8A')}
+  else if(v==='standard'){root.style.setProperty('--brand','#1B365D');root.style.setProperty('--brand-light','#2D5A8A')}
+  else if(v==='overload'){root.style.setProperty('--brand','#E53935');root.style.setProperty('--brand-light','#EF5350')}
+});
+
+function resetAll(){
+  document.getElementById('c-parch').click();
+  document.getElementById('d-body').click();
+  document.getElementById('colWidth').value=680;document.getElementById('colWidth').oninput();
+  document.getElementById('f-def').click();
+  document.getElementById('a-std').click();
+  resetArticle();
+}
+
+// ═══════════ INIT ═══════════
+renderPages();
+</script>
+</body>
+</html>
