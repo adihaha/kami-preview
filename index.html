@@ -101,7 +101,7 @@ input:focus{border-color:var(--brand)}
 <!-- ═══ 面板 ═══ -->
 <aside class="panel">
   <div class="panel-header">
-    <h2>Kami 紙 <small id="version" style="font-size:8pt;font-weight:400;color:var(--stone)">v4.3</small></h2>
+    <h2>Kami 紙 <small id="version" style="font-size:8pt;font-weight:400;color:var(--stone)">v4.4</small></h2>
     <p>智能排版 · 阅读</p>
   </div>
 
@@ -489,37 +489,80 @@ async function runAI(){
   const cfg=AI_CONFIG[provider];
   const model=document.getElementById('aiModel').value;
   if(!currentText||currentText===DEFAULT_TEXT)return setStatus('请先导入文章');
-  const base=provider==='openai'?cfg.base:cfg.base;
 
+  const base=cfg.base;
   setStatus('正在分析…');document.getElementById('aiBtn').disabled=true;
+
   try{
-    const res=await fetch(base+'/chat/completions',{
+    // Step 1: extract metadata from first chunk
+    const firstChunk=currentText.slice(0,3000);
+    const metaRes=await fetch(base+'/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
       body:JSON.stringify({
-        model,temperature:0.1,
+        model,temperature:0.1,max_tokens:500,
         messages:[{
           role:'system',
-          content:'你是文章结构分析器。分析输入文本，返回严格 JSON（不含 markdown 代码块）：\n\n{"title":"标题","author":"作者","date":"日期","tags":["标签"],"lead":"摘要","blocks":[{"type":"h1|h2|h3|body|quote|dash-list","text":"内容"}]}\n\n规则：保持原文不改写；根据语义判标题层级；tags 2-5 个关键词；只返回 JSON。'
-        },{role:'user',content:currentText}]
+          content:'从文章开头提取元数据，返回JSON：{"title":"标题","author":"作者","date":"日期","tags":["标签2-5个"],"lead":"摘要"}。不要markdown包裹。'
+        },{role:'user',content:firstChunk}]
       })
     });
-    if(!res.ok){const e=await res.text();throw new Error(res.status+' '+res.statusText+': '+e.slice(0,200))}
-    const data=await res.json();
-    let content=data.choices[0].message.content;
-    content=content.replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
-    const meta=JSON.parse(content);
+    if(!metaRes.ok)throw new Error('元数据 '+metaRes.status);
+    let metaContent=(await metaRes.json()).choices[0].message.content;
+    metaContent=metaContent.replace(/```json|```/g,'').trim();
+    const meta=JSON.parse(metaContent);
+    setStatus('元数据已提取，分析章节中…');
+
+    // Step 2: split raw blocks & analyze page by page
+    const allBlocks=parseText(currentText);
+    const perPage=6,total=allBlocks.length;
+    const allAIBlocks=[];
+
+    for(let p=0;p<Math.ceil(total/perPage);p++){
+      const start=p*perPage,end=Math.min(start+perPage,total);
+      const pageBlocks=allBlocks.slice(start,end);
+      const pageText=pageBlocks.map(b=>{
+        if(b.text)return b.text;
+        if(b.items)return b.items.join('\n');
+        if(b.tags)return b.tags.join(', ');
+        return '';
+      }).join('\n\n');
+
+      if(!pageText.trim())continue;
+      setStatus(`分析第 ${p+1}/${Math.ceil(total/perPage)} 页…`);
+
+      const pageRes=await fetch(base+'/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+        body:JSON.stringify({
+          model,temperature:0.1,max_tokens:1500,
+          messages:[{
+            role:'system',
+            content:'分析段落，返回JSON数组：[{"type":"h1|h2|h3|body|quote|dash-list","text":"原文内容"}]\n规则：根据语义判标题层级；保持原文不改写；正文用body。只返回JSON数组。'
+          },{role:'user',content:pageText}]
+        })
+      });
+      if(!pageRes.ok)throw new Error(`第${p+1}页 ${pageRes.status}`);
+      let pageContent=(await pageRes.json()).choices[0].message.content;
+      pageContent=pageContent.replace(/```json|```/g,'').trim();
+      try{
+        const parsed=JSON.parse(pageContent);
+        allAIBlocks.push(...(Array.isArray(parsed)?parsed:parsed.blocks||[]));
+      }catch(e){allAIBlocks.push(...pageBlocks)}
+    }
+
+    // Step 3: assemble
     const blocks=[];
     if(meta.title)blocks.push({type:'display',text:meta.title});
     if(meta.lead)blocks.push({type:'lead',text:meta.lead});
     if(meta.tags&&meta.tags.length)blocks.push({type:'tags',tags:meta.tags.slice(0,5)});
-    if(meta.blocks)blocks.push(...meta.blocks);
+    blocks.push(...allAIBlocks);
+
     window._aiMeta={author:meta.author,date:meta.date,blocks};
     currentText=blocksToText(blocks);
     renderPages();
-    // reset to page mode
     document.getElementById('m-page').click();
-    setStatus(`✅ 已识别：${blocks.length} 块 · ${tocItems.length} 章节 · ${pages.length} 页`);
+    setStatus(`✅ ${blocks.length}块 · ${tocItems.length}章节 · ${pages.length}页`);
   }catch(e){setStatus('❌ '+e.message)}
   finally{document.getElementById('aiBtn').disabled=false}
 }
